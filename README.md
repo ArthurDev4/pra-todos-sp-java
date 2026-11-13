@@ -9,7 +9,7 @@
 | **Como funciona** | O cidadão escolhe o bairro (subprefeitura) e vê as promessas relacionadas à região. Cada promessa aparece como "virou meta oficial" (com status e, quando existir, o resultado numérico) ou "não virou meta". Um administrador cadastra e edita promessas e metas. Todos os dados são fictícios e a tela avisa isso. |
 | **O que cada parte faz** | **Database:** guarda eixos, subprefeituras, metas, promessas e administradores. **Java:** API REST (Spring Boot) que entrega os dados. **Dynamic Programming:** busca de promessas por semelhança, mesmo com erro de digitação, e responde se virou meta. **Data Science:** [a definir]. **AR-VR:** [a definir]. **Rede:** [a definir]. |
 | **Link do repositório** | https://github.com/ArthurDev4/pra-todos-sp-java |
-| **Indicador de impacto** | [a definir pelo grupo] |
+| **Indicador de impacto** | Quantas pessoas conseguem descobrir, sozinhas e rápido, se uma promessa do bairro virou meta e como ela está andando. Meta: 8 de cada 10 pessoas acertarem em até 1 minuto. Como vamos medir: pedimos para algumas pessoas testarem o protótipo e anotamos quantas conseguem. |
 | **ODS conectados** | **ODS 10 (Redução das desigualdades):** combate a desigualdade territorial e de acesso à informação, dando ferramentas para que bairros historicamente menos atendidos fiscalizem se as promessas de campanha chegam às suas regiões como chegam às áreas centrais. **ODS 11 (Cidades e comunidades sustentáveis):** traduz um plano da cidade inteira para o nível da subprefeitura e do bairro do cidadão. |
 
 ---
