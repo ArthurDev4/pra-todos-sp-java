@@ -21,15 +21,15 @@
 Equipe **Zynox** · Global Solution FIAP 2026.2 · Engenharia de Software, 2º ano.
 
 > ⚠ **Dados fictícios.** Prefeito, promessas e metas são inventados; reais são só os nomes dos eixos e das
-> subprefeituras. O banco e o contrato da API são os do grupo (`src/main/resources/db/` e `docs/INTEGRACAO.md`).
+> subprefeituras. O banco e o contrato da API são os do grupo (scripts em `src/main/resources/db/`).
 
 | Integrante | RM |
 |---|---|
+| Arthur Cardoso Carinhanha | 573573 |
 | Arthur Serrano Veloso | 561542 |
 | Carlos Eduardo Goes | 562389 |
 | Hyann dos Santos Espindas | 563421 |
 | Israel Araujo Henriques de Moura | 559068 |
-| Arthur Cardoso Carinhanha | 573573 |
 
 ## Tecnologias
 
@@ -62,8 +62,7 @@ src/main/resources/
 └── static/      Telas: index.html (cidadão) e admin.html (administrador)
 ```
 
-Fluxo: `Controller → BO → DAO → Oracle`. Diagramas e rastreabilidade em
-[docs/DOCUMENTACAO_TECNICA.md](docs/DOCUMENTACAO_TECNICA.md).
+Fluxo: `Controller → BO → DAO → Oracle`.
 
 ## Como executar localmente
 
@@ -110,7 +109,7 @@ Rotas de admin: faça `POST /login`, copie o `token` e envie `Authorization: Bea
 ./mvnw verify   # + OracleIntegracaoIT no Oracle REAL (só roda com credenciais; desfaz tudo com rollback)
 ```
 
-## Endpoints (contrato do grupo — `docs/INTEGRACAO.md`)
+## Endpoints (contrato do grupo)
 
 | Método | Rota | Acesso | Para quê |
 |---|---|---|---|
@@ -135,30 +134,21 @@ CORS liberado. O programa Python (Dynamic) usa dados de exemplo embutidos; opcio
 ## Deploy no Render
 
 **Publicado em: https://pratodossp.onrender.com** (Swagger: https://pratodossp.onrender.com/swagger-ui.html).
-Testado em 13/11/2026: todas as rotas respondem a partir do Oracle FIAP e o JSON é idêntico aos exemplos do grupo.
 
 1. Suba o repositório no GitHub.
 2. No Render: **New → Web Service** → conecte o repositório (ele usa o `Dockerfile`), ou **New → Blueprint** com o `render.yaml`.
 3. Em **Environment**: `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
-4. Teste `https://<servico>.onrender.com/subprefeituras/1/termometro` e `/swagger-ui.html`.
+4. Teste `https://<servico>.onrender.com/subprefeituras/7/termometro` e `/swagger-ui.html`.
 
 No plano gratuito o serviço "dorme"; a primeira requisição pode levar cerca de 1 minuto.
 
-## Documentação (PDF da disciplina)
+## Documentação
+A documentação em PDF da disciplina (capa, sumário, especificação, diagramas de classes, protótipos, endpoints, DER e
+instruções de execução) é entregue junto no ZIP do Portal do Aluno.
 
-- PDF único: [docs/Pra_Todos_SP_Documentacao_Java.pdf](docs/Pra_Todos_SP_Documentacao_Java.pdf) (capa, sumário,
-  especificação, diagramas de classes, protótipos, endpoints, DER, instruções e rastreabilidade).
-- Diagramas (fonte Mermaid + PNG): `docs/diagramas/`. Capturas reais das telas: `docs/prints/`.
-- Para regerar o PDF com os links do GitHub e do deploy:
-  ```bash
-  uv run --no-project --with playwright python docs/ferramentas/gerar_diagramas.py
-  uv run --no-project --with reportlab --with pillow python docs/ferramentas/gerar_pdf.py \
-      --github https://github.com/<usuario>/<repo> --deploy https://<servico>.onrender.com
-  ```
-
-## Fora do escopo do MVP
-US12 (filtro por área, Should): já funciona na tela do bairro (filtro no navegador, sem rota nova). US13 (notícias e agenda, Could) e
-US14–US21 (Won't): não implementados.
+## Escopo do MVP
+A US12 (filtro por área) faz parte do MVP do Agile e já funciona na tela do bairro (filtro no navegador, sem rota nova).
+Fora do MVP e não implementados: US13 (notícias e agenda, Could) e US14–US21 (Won't).
 
 ## Uso de IA
 Prompts usados com IA como copiloto: [prompts.md](prompts.md).
