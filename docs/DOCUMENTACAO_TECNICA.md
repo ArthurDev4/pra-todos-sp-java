@@ -201,7 +201,7 @@ erDiagram
 
 ## 9. Pendências
 
-- [ ] Preencher na Ficha: bairro piloto, link do repositório, indicador de impacto, Data Science, AR-VR, Rede.
-- [ ] GitHub (commit/push dependem de autorização).
-- [ ] Deploy no Render e teste dos endpoints remotos (inclusive o Python usando `GET /promessas`).
+- [ ] Preencher na Ficha: bairro piloto, indicador de impacto, Data Science, AR-VR, Rede.
+- [x] GitHub: https://github.com/ArthurDev4/pra-todos-sp-java
+- [x] Deploy: https://pratodossp.onrender.com (rotas testadas; JSON idêntico aos exemplos). Falta o teste do Python do grupo usando `GET /promessas`.
 - [x] PDF gerado (`docs/Pra_Todos_SP_Documentacao_Java.pdf`); regerar com os links após GitHub e Render.
