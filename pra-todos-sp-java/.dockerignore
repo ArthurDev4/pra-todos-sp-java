@@ -1,8 +1,0 @@
-target/
-.env
-.git/
-.idea/
-.vscode/
-docs/
-graphify-out/
-*.iml

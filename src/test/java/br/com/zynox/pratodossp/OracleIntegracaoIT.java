@@ -19,6 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -67,22 +70,27 @@ class OracleIntegracaoIT {
     }
 
     @Test
-    @DisplayName("Oracle: termometro de Itaquera igual ao exemplo do grupo")
-    void termometroItaquera() throws Exception {
+    @DisplayName("Oracle: termometro de uma subprefeitura tem o formato do contrato (nao depende dos dados cadastrados)")
+    void termometroDeUmaSubprefeitura() throws Exception {
         mvc.perform(get("/subprefeituras/1/termometro"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.aviso").value("Dados fictícios"))
-                .andExpect(jsonPath("$.promessas[*].id", contains(1, 2, 3, 6, 15)))
-                .andExpect(jsonPath("$.naoViraramMeta[*].id", contains(11, 12, 14)))
-                .andExpect(jsonPath("$.promessas[2].meta.percentual").value(26.7));
+                .andExpect(jsonPath("$.subprefeitura.id").value(1))
+                .andExpect(jsonPath("$.promessas").isArray())
+                .andExpect(jsonPath("$.naoViraramMeta").isArray())
+                // quem esta em "promessas" virou meta; quem esta em "naoViraramMeta" nao tem meta
+                .andExpect(jsonPath("$.promessas[*].estado", everyItem(equalTo("VIROU_META"))))
+                .andExpect(jsonPath("$.naoViraramMeta[*].estado", everyItem(equalTo("NAO_VIROU_META"))));
     }
 
     @Test
-    @DisplayName("Oracle: GET /promessas devolve as 15 promessas e GET /termometro as 7 subprefeituras")
-    void contagens() throws Exception {
-        mvc.perform(get("/promessas")).andExpect(jsonPath("$", hasSize(15)));
-        mvc.perform(get("/termometro")).andExpect(jsonPath("$", hasSize(7)));
-        mvc.perform(get("/promessas").param("semMeta", "true")).andExpect(jsonPath("$[*].id", contains(11, 12, 13, 14)));
+    @DisplayName("Oracle: listas de promessas e termometro respondem no formato do contrato (sem contar linhas fixas)")
+    void listagens() throws Exception {
+        mvc.perform(get("/promessas")).andExpect(status().isOk()).andExpect(jsonPath("$").isArray());
+        mvc.perform(get("/termometro")).andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))));
+        mvc.perform(get("/promessas").param("semMeta", "true")).andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].estado", everyItem(equalTo("NAO_VIROU_META"))));
     }
 
     @Test

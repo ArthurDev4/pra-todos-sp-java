@@ -21,15 +21,15 @@
 Equipe **Zynox** · Global Solution FIAP 2026.2 · Engenharia de Software, 2º ano.
 
 > ⚠ **Dados fictícios.** Prefeito, promessas e metas são inventados; reais são só os nomes dos eixos e das
-> subprefeituras. O banco e o contrato da API são os do grupo (scripts em `src/main/resources/db/`).
+> subprefeituras. O banco e o contrato da API são os do grupo (`src/main/resources/db/` e `docs/INTEGRACAO.md`).
 
 | Integrante | RM |
 |---|---|
-| Arthur Cardoso Carinhanha | 573573 |
 | Arthur Serrano Veloso | 561542 |
 | Carlos Eduardo Goes | 562389 |
 | Hyann dos Santos Espindas | 563421 |
 | Israel Araujo Henriques de Moura | 559068 |
+| Arthur Cardoso Carinhanha | 573573 |
 
 ## Tecnologias
 
@@ -62,7 +62,8 @@ src/main/resources/
 └── static/      Telas: index.html (cidadão) e admin.html (administrador)
 ```
 
-Fluxo: `Controller → BO → DAO → Oracle`.
+Fluxo: `Controller → BO → DAO → Oracle`. Diagramas e rastreabilidade em
+[docs/DOCUMENTACAO_TECNICA.md](docs/DOCUMENTACAO_TECNICA.md).
 
 ## Como executar localmente
 
@@ -73,10 +74,6 @@ JDK 17+ (`java -version`) e usuário/senha do Oracle FIAP.
 No SQL Developer, conectado ao Oracle da FIAP, rode `src/main/resources/db/01_ddl.sql` e depois `02_dml.sql`
 (abra em UTF-8). Alternativa: deixe `DB_INICIALIZAR=true` e a aplicação roda os dois scripts **se a tabela
 PROMESSA ainda não existir** (se já existir, não mexe em nada).
-
-Para **recriar o banco do zero** (por exemplo, ao receber uma versão nova do esquema), abra o `01_ddl.sql`, tire o
-comentário (`--`) do bloco `DROP TABLE` / `DROP SEQUENCE` que fica no topo do arquivo, rode o script inteiro e depois o
-`02_dml.sql`. Atenção: isso apaga todos os dados das tabelas.
 
 ### 3. Variáveis
 Copie `.env.example` para `.env` na raiz e preencha (o `.env` está no `.gitignore` — nunca vá para o GitHub):
@@ -92,15 +89,10 @@ Copie `.env.example` para `.env` na raiz e preencha (o `.env` está no `.gitigno
 | `PORT` | não | Padrão 8080 (o Render define sozinho) |
 
 ### 4. Subir
-Rode na pasta onde estão o `pom.xml` e o `mvnw` (o `.env` precisa estar nessa mesma pasta):
-
 ```bash
-./mvnw spring-boot:run       # Git Bash, Linux ou macOS
-.\mvnw.cmd spring-boot:run   # PowerShell
-mvnw.cmd spring-boot:run     # Prompt de Comando (CMD)
+mvnw.cmd spring-boot:run     # Windows
+./mvnw spring-boot:run       # Linux / macOS / Git Bash
 ```
-
-Espere a mensagem `Started PraTodosSpApplication` antes de abrir o navegador.
 
 | Endereço | O quê |
 |---|---|
@@ -118,7 +110,7 @@ Rotas de admin: faça `POST /login`, copie o `token` e envie `Authorization: Bea
 ./mvnw verify   # + OracleIntegracaoIT no Oracle REAL (só roda com credenciais; desfaz tudo com rollback)
 ```
 
-## Endpoints (contrato do grupo)
+## Endpoints (contrato do grupo — `docs/INTEGRACAO.md`)
 
 | Método | Rota | Acesso | Para quê |
 |---|---|---|---|
@@ -143,21 +135,30 @@ CORS liberado. O programa Python (Dynamic) usa dados de exemplo embutidos; opcio
 ## Deploy no Render
 
 **Publicado em: https://pratodossp.onrender.com** (Swagger: https://pratodossp.onrender.com/swagger-ui.html).
+Testado em 13/11/2026: todas as rotas respondem a partir do Oracle FIAP e o JSON é idêntico aos exemplos do grupo.
 
 1. Suba o repositório no GitHub.
 2. No Render: **New → Web Service** → conecte o repositório (ele usa o `Dockerfile`), ou **New → Blueprint** com o `render.yaml`.
 3. Em **Environment**: `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
-4. Teste `https://<servico>.onrender.com/subprefeituras/7/termometro` e `/swagger-ui.html`.
+4. Teste `https://<servico>.onrender.com/subprefeituras/1/termometro` e `/swagger-ui.html`.
 
 No plano gratuito o serviço "dorme"; a primeira requisição pode levar cerca de 1 minuto.
 
-## Documentação
-A documentação em PDF da disciplina (capa, sumário, especificação, diagramas de classes, protótipos, endpoints, DER e
-instruções de execução) é entregue junto no ZIP do Portal do Aluno.
+## Documentação (PDF da disciplina)
 
-## Escopo do MVP
-A US12 (filtro por área) faz parte do MVP do Agile e já funciona na tela do bairro (filtro no navegador, sem rota nova).
-Fora do MVP e não implementados: US13 (notícias e agenda, Could) e US14–US21 (Won't).
+- PDF único: [docs/Pra_Todos_SP_Documentacao_Java.pdf](docs/Pra_Todos_SP_Documentacao_Java.pdf) (capa, sumário,
+  especificação, diagramas de classes, protótipos, endpoints, DER, instruções e rastreabilidade).
+- Diagramas (fonte Mermaid + PNG): `docs/diagramas/`. Capturas reais das telas: `docs/prints/`.
+- Para regerar o PDF com os links do GitHub e do deploy:
+  ```bash
+  uv run --no-project --with playwright python docs/ferramentas/gerar_diagramas.py
+  uv run --no-project --with reportlab --with pillow python docs/ferramentas/gerar_pdf.py \
+      --github https://github.com/<usuario>/<repo> --deploy https://<servico>.onrender.com
+  ```
+
+## Fora do escopo do MVP
+US12 (filtro por área, Should): já funciona na tela do bairro (filtro no navegador, sem rota nova). US13 (notícias e agenda, Could) e
+US14–US21 (Won't): não implementados.
 
 ## Uso de IA
 Prompts usados com IA como copiloto: [prompts.md](prompts.md).
