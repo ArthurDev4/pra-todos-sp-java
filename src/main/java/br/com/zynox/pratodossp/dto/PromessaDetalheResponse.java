@@ -13,6 +13,8 @@ import java.util.List;
 public record PromessaDetalheResponse(
         @Schema(example = "11") Long id,
         @Schema(example = "Fazer um grande parque linear na zona leste") String texto,
+        @Schema(description = "Área da promessa (eixo)", example = "Viver São Paulo") String area,
+        @Schema(example = "Plano de governo (fictício)") String fonte,
         @Schema(example = "NAO_VIROU_META") EstadoPromessa estado,
         MetaResumoResponse meta,
         @Schema(description = "IDs das subprefeituras ligadas à promessa", example = "[1, 5]")

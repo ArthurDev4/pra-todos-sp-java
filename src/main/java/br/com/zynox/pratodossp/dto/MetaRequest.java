@@ -46,6 +46,10 @@ public record MetaRequest(
         @NotNull(message = "A regionalização da meta é obrigatória")
         @Schema(example = "REGIONALIZADA") Regionalizacao regionalizacao,
 
+        @NotBlank(message = "A fonte da meta é obrigatória")
+        @Size(max = 200, message = "A fonte deve ter no máximo 200 caracteres")
+        @Schema(example = "Programa de Metas (fictício)") String fonte,
+
         @Schema(description = "IDs das subprefeituras (somente para REGIONALIZADA)", example = "[1, 4]")
         List<Long> subprefeituraIds) {
 }

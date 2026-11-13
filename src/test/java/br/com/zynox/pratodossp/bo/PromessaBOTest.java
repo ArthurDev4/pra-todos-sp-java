@@ -1,6 +1,7 @@
 package br.com.zynox.pratodossp.bo;
 
 import br.com.zynox.pratodossp.Fixtures;
+import br.com.zynox.pratodossp.dao.EixoDAO;
 import br.com.zynox.pratodossp.dao.MetaDAO;
 import br.com.zynox.pratodossp.dao.PromessaDAO;
 import br.com.zynox.pratodossp.dao.SubprefeituraDAO;
@@ -10,6 +11,7 @@ import br.com.zynox.pratodossp.dto.PromessaResponse;
 import br.com.zynox.pratodossp.exception.ConflitoException;
 import br.com.zynox.pratodossp.exception.RecursoNaoEncontradoException;
 import br.com.zynox.pratodossp.exception.RegraNegocioException;
+import br.com.zynox.pratodossp.model.Eixo;
 import br.com.zynox.pratodossp.model.EstadoPromessa;
 import br.com.zynox.pratodossp.model.Promessa;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,18 +41,21 @@ class PromessaBOTest {
     @Mock PromessaDAO promessaDAO;
     @Mock MetaDAO metaDAO;
     @Mock SubprefeituraDAO subprefeituraDAO;
+    @Mock EixoDAO eixoDAO;
     @Mock AdminBO adminBO;
 
     PromessaBO promessaBO;
 
     @BeforeEach
     void setUp() {
-        promessaBO = new PromessaBO(promessaDAO, metaDAO, new SubprefeituraBO(subprefeituraDAO), adminBO);
+        promessaBO = new PromessaBO(promessaDAO, metaDAO, new SubprefeituraBO(subprefeituraDAO), new EixoBO(eixoDAO), adminBO);
         lenient().when(promessaDAO.save(any(Promessa.class))).thenAnswer(inv -> inv.getArgument(0));
         lenient().when(adminBO.buscarEntidadePorEmail("admin@teste.dev")).thenReturn(Fixtures.admin());
         lenient().when(subprefeituraDAO.findById(1L)).thenReturn(Optional.of(Fixtures.itaquera()));
         lenient().when(subprefeituraDAO.findById(3L)).thenReturn(Optional.of(Fixtures.butanta()));
         lenient().when(metaDAO.findById(1L)).thenReturn(Optional.of(Fixtures.metaCreches()));
+        lenient().when(eixoDAO.findById(1L)).thenReturn(Optional.of(Fixtures.universoSp()));
+        lenient().when(eixoDAO.findById(2L)).thenReturn(Optional.of(new Eixo(2L, "Viver São Paulo")));
     }
 
     private List<Promessa> amostra() {
@@ -73,6 +78,8 @@ class PromessaBOTest {
         assertThat(r.get(1).meta().percentual()).isNull();
         assertThat(r.get(2).estado()).isEqualTo(EstadoPromessa.NAO_VIROU_META);
         assertThat(r.get(2).meta()).isNull();
+        assertThat(r.get(2).area()).isEqualTo("Universo SP");
+        assertThat(r.get(2).fonte()).isEqualTo("Plano de governo (fictício)");
     }
 
     @Test
@@ -81,7 +88,7 @@ class PromessaBOTest {
         when(promessaDAO.findAllByOrderByIdAsc()).thenReturn(amostra());
         assertThat(promessaBO.listar(true, null)).extracting(PromessaResponse::id).containsExactly(11L);
         assertThat(promessaBO.listar(false, null)).extracting(PromessaResponse::id).containsExactly(1L, 4L);
-        assertThat(promessaBO.listar(null, 1L)).extracting(PromessaResponse::id).containsExactly(1L, 4L);
+        assertThat(promessaBO.listar(null, 1L)).extracting(PromessaResponse::id).containsExactly(1L, 4L, 11L);
         assertThat(promessaBO.listar(null, 4L)).isEmpty();
     }
 
@@ -96,7 +103,7 @@ class PromessaBOTest {
     @DisplayName("Cadastrar promessa sem meta com subprefeitura; CRIADO_POR = admin logado")
     void cadastrarSemMeta() {
         when(subprefeituraDAO.findAllById(anyIterable())).thenReturn(List.of(Fixtures.itaquera()));
-        PromessaDetalheResponse r = promessaBO.cadastrar(new PromessaRequest("Praça nova", null, List.of(1L)), "admin@teste.dev");
+        PromessaDetalheResponse r = promessaBO.cadastrar(new PromessaRequest("Praça nova", 2L, null, "Plano de governo (fictício)", List.of(1L)), "admin@teste.dev");
 
         assertThat(r.estado()).isEqualTo(EstadoPromessa.NAO_VIROU_META);
         assertThat(r.subprefeituras()).containsExactly(1L);
@@ -109,13 +116,25 @@ class PromessaBOTest {
     @DisplayName("Promessa com meta e subprefeituras ao mesmo tempo = 409; meta inexistente = 400")
     void cadastrarRegras() {
         when(subprefeituraDAO.findAllById(anyIterable())).thenReturn(List.of(Fixtures.itaquera()));
-        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Creches", 1L, List.of(1L)), "admin@teste.dev"))
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Creches", 1L, 1L, "Plano de governo (fictício)", List.of(1L)), "admin@teste.dev"))
                 .isInstanceOf(ConflitoException.class);
         when(metaDAO.findById(999L)).thenReturn(Optional.empty());
-        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Creches", 999L, null), "admin@teste.dev"))
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Creches", 1L, 999L, "Plano de governo (fictício)", null), "admin@teste.dev"))
                 .isInstanceOf(RegraNegocioException.class);
-        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("   ", null, null), "admin@teste.dev"))
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("   ", 1L, null, "Plano de governo (fictício)", null), "admin@teste.dev"))
                 .isInstanceOf(RegraNegocioException.class);
+        verify(promessaDAO, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Fonte e area obrigatorias; promessa com meta precisa do mesmo eixo da meta (400)")
+    void fonteEArea() {
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Praça", 1L, null, "  ", null), "admin@teste.dev"))
+                .isInstanceOf(RegraNegocioException.class).hasMessageContaining("fonte");
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Praça", null, null, "Plano", null), "admin@teste.dev"))
+                .isInstanceOf(RegraNegocioException.class).hasMessageContaining("área");
+        assertThatThrownBy(() -> promessaBO.cadastrar(new PromessaRequest("Creches", 2L, 1L, "Plano", null), "admin@teste.dev"))
+                .isInstanceOf(RegraNegocioException.class).hasMessageContaining("mesma área");
         verify(promessaDAO, never()).save(any());
     }
 
@@ -125,7 +144,7 @@ class PromessaBOTest {
         Promessa semMeta = Fixtures.promessa(11L, "Parque linear", null, Fixtures.itaquera());
         when(promessaDAO.findWithDetalhesById(11L)).thenReturn(Optional.of(semMeta));
 
-        PromessaDetalheResponse r = promessaBO.atualizar(11L, new PromessaRequest("Parque linear", 1L, null));
+        PromessaDetalheResponse r = promessaBO.atualizar(11L, new PromessaRequest("Parque linear", 1L, 1L, "Plano de governo (fictício)", null));
 
         assertThat(r.estado()).isEqualTo(EstadoPromessa.VIROU_META);
         assertThat(r.subprefeituras()).isEmpty();
@@ -136,7 +155,7 @@ class PromessaBOTest {
     void desligarMeta() {
         when(promessaDAO.findWithDetalhesById(1L)).thenReturn(Optional.of(
                 Fixtures.promessa(1L, "Creches", Fixtures.metaCreches())));
-        assertThat(promessaBO.atualizar(1L, new PromessaRequest("Creches", null, null)).estado())
+        assertThat(promessaBO.atualizar(1L, new PromessaRequest("Creches", 1L, null, "Plano de governo (fictício)", null)).estado())
                 .isEqualTo(EstadoPromessa.NAO_VIROU_META);
     }
 

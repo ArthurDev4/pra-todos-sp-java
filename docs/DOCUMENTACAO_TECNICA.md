@@ -9,15 +9,15 @@ Fontes da verdade: `docs/INTEGRACAO.md` (contrato do grupo), `docs/exemplos/` (f
 | # | Ponto | Decisão |
 |---|---|---|
 | 1 | Padrão de acesso a dados | JPA / Spring Data (confirmado pela equipe). Os DAOs são interfaces `JpaRepository`. |
-| 2 | Banco | **Sem alterações** no modelo do grupo: 7 tabelas, nomes, colunas, ids fixos e sequences `SEQ_*.NEXTVAL` iguais ao `01_ddl.sql`. Mapeamento conferido com `ddl-auto=validate` no Oracle FIAP. |
+| 2 | Banco | Modelo do grupo (versão alinhada ao Agile): 7 tabelas, ids fixos e sequences `SEQ_*.NEXTVAL` iguais ao `01_ddl.sql`. Novidades: `META.fonte`, `PROMESSA.fonte` e `PROMESSA.eixo_id` (área da promessa), todos obrigatórios. O mapeamento deve ser conferido com `ddl-auto=validate` no Oracle FIAP. |
 | 3 | Rotas e JSON | Exatamente as do `INTEGRACAO.md`. O JSON real foi comparado campo a campo com `docs/exemplos/` (termômetro de Itaquera, termômetro de todas, promessas, metas e o CSV): **idênticos**. |
 | 4 | Percentual | Não é coluna: `MetaBO.calcularPercentual` = atual ÷ alvo × 100 com 1 casa (8/30 = 26.7); `null` sem valor alvo. |
 | 5 | Região das promessas | Com meta → região da meta (`META_SUBPREFEITURA`); sem meta → `PROMESSA_SUBPREFEITURA`. Promessa cuja meta não tem região não aparece em nenhum bairro (como no exemplo). |
 | 6 | Proteção das rotas | JWT + BCrypt (Spring Security). GET e `POST /login` públicos; demais POST/PUT/DELETE exigem admin. `POST /admins` também exige login (decisão da equipe); o primeiro admin vem de `ADMIN_EMAIL`/`ADMIN_PASSWORD`, porque os admins do `02_dml` têm senha fictícia. |
 | 7 | `criado_por` | Preenchido com o admin do token; nunca aparece no JSON. |
-| 8 | Fonte (US05 do Agile) | O banco do grupo não tem coluna de fonte. A tela mostra a fonte fictícia fixa ("Plano de governo fictício" / "Programa de Metas fictício"). |
+| 8 | Fonte (US05 do Agile) | Cada meta e cada promessa guarda a sua `fonte` (obrigatória, até 200 caracteres) e a tela mostra esse valor. |
 | 9 | Rótulos de status | Na tela, os do Agile (Em planejamento / Em andamento / Concluída), sempre com ícone + texto + cor. No JSON, os códigos do banco. |
-| 10 | Filtro por área (US12) | Fora do MVP: aparece desabilitado com "em breve". |
+| 10 | Filtro por área (US12) | Cada promessa tem área (`eixo_id`). Na tela do bairro o filtro por área funciona no navegador, sem rota nova. Promessa com meta deve ter a mesma área da meta (regra no `PromessaBO`). |
 | 11 | Rotas extras | `GET /promessas/{id}` (detalhe da Tela 3 e edição no admin). Não muda nenhum formato do contrato. |
 | 12 | Testes e banco | Nenhum H2. Unitários com DAOs simulados (Mockito); `OracleIntegracaoIT` no Oracle real com rollback. |
 
@@ -64,7 +64,9 @@ classDiagram
     class Promessa {
         -Long id
         -String texto
+        -Eixo eixo
         -Meta meta
+        -String fonte
         -UsuarioAdmin criadoPor
         -Set~Subprefeitura~ subprefeituras
         +getEstado() EstadoPromessa
@@ -80,6 +82,7 @@ classDiagram
         -BigDecimal valorAtual
         -BigDecimal valorAlvo
         -Regionalizacao regionalizacao
+        -String fonte
         -UsuarioAdmin criadoPor
         -Set~Subprefeitura~ subprefeituras
         +atendeSubprefeitura(Long) boolean
@@ -91,6 +94,7 @@ classDiagram
     class StatusMeta { <<enumeration>> EM_PLANEJAMENTO EM_PROGRESSO ATINGIDA }
     class Regionalizacao { <<enumeration>> REGIONALIZADA NAO_REGIONALIZAVEL NAO_DIVULGADA +aceitaRegioes() boolean }
     class EstadoPromessa { <<enumeration>> VIROU_META NAO_VIROU_META }
+    Promessa "0..*" --> "1" Eixo : eixo_id
     Promessa "0..*" --> "0..1" Meta : meta_id
     Promessa "0..*" --> "0..*" Subprefeitura : PROMESSA_SUBPREFEITURA
     Promessa "0..*" --> "1" UsuarioAdmin : criado_por
@@ -152,11 +156,12 @@ erDiagram
     USUARIO_ADMIN { NUMBER id PK  VARCHAR2 nome  VARCHAR2 email UK  VARCHAR2 senha_hash  DATE data_cadastro }
     EIXO { NUMBER id PK  VARCHAR2 nome UK }
     SUBPREFEITURA { NUMBER id PK  VARCHAR2 nome UK }
-    META { NUMBER id PK  NUMBER numero UK  VARCHAR2 texto  NUMBER eixo_id FK  VARCHAR2 status  NUMBER valor_atual  NUMBER valor_alvo  VARCHAR2 regionalizacao  NUMBER criado_por FK }
-    PROMESSA { NUMBER id PK  VARCHAR2 texto  NUMBER meta_id FK  NUMBER criado_por FK }
+    META { NUMBER id PK  NUMBER numero UK  VARCHAR2 texto  NUMBER eixo_id FK  VARCHAR2 status  NUMBER valor_atual  NUMBER valor_alvo  VARCHAR2 regionalizacao  VARCHAR2 fonte  NUMBER criado_por FK }
+    PROMESSA { NUMBER id PK  VARCHAR2 texto  NUMBER eixo_id FK  NUMBER meta_id FK  VARCHAR2 fonte  NUMBER criado_por FK }
     META_SUBPREFEITURA { NUMBER meta_id PK  NUMBER subprefeitura_id PK }
     PROMESSA_SUBPREFEITURA { NUMBER promessa_id PK  NUMBER subprefeitura_id PK }
     EIXO ||--o{ META : agrupa
+    EIXO ||--o{ PROMESSA : classifica
     USUARIO_ADMIN ||--o{ META : cadastra
     USUARIO_ADMIN ||--o{ PROMESSA : cadastra
     META |o--o{ PROMESSA : origina
@@ -174,7 +179,7 @@ erDiagram
 | US02 Promessas do bairro | UC02 | `GET /subprefeituras/{id}/termometro`, `GET /termometro` | `TermometroBO` | `TermometroBOTest.*`; `OracleIntegracaoIT.termometroItaquera`, `contagens` |
 | US03 Virou meta? | UC03 | `GET /promessas?semMeta=` | `Promessa.getEstado`, `PromessaBO.listar` | `ModelTest.estadoDaPromessa`; `PromessaBOTest.listarTodas`, `filtros` |
 | US04 Status e resultado | UC04 | `GET /metas/{id}`, `GET /metas` | `MetaBO.calcularPercentual` | `MetaBOTest.percentual`, `percentualNulo`; `MetaControllerTest.buscar` |
-| US05 Fontes | UC04 | (tela) | `static/js/comum.js` | prints `tela3_*` |
+| US05 Fontes | UC04 | campo `fonte` em `/metas`, `/promessas` | `MetaBO.fonteObrigatoria`, `PromessaBO` | `MetaBOTest.*`, `PromessaBOTest.*` (fonte obrigatória); prints `tela3_*` |
 | US06 Aviso de regionalização | UC06 | `GET /metas/{id}` (`regionalizacao`) | `MetaBO.validarRegionalizacao` | `MetaBOTest.regionalizacao`, `ligar`, `desligar` |
 | US07 Acessibilidade | todos | — | `static/css/estilo.css`, `comum.js` (ícone + texto + cor) | prints `docs/prints/` |
 | US08 Login admin | UC07 | `POST /login`, `POST /admins` | `AdminBO`, `JwtService`, `SecurityConfig` | `AdminBOTest.*`; `AdminControllerTest.*`; `PromessaControllerTest.seguranca` |
@@ -192,16 +197,15 @@ erDiagram
 | Tela 3 — Detalhe da promessa e da meta | idem | `/#/promessa/{id}` | `tela3_detalhe_meta_regionalizada.png`, `tela3b_detalhe_regiao_nao_divulgada.png`, `tela3c_detalhe_sem_meta.png` |
 | Tela 4 — Administrador | `admin.html` + `js/admin.js` | `/admin.html` | `tela4a_login_admin.png`, `tela4b_cadastro_promessa.png`, `tela4c_gerenciar_metas.png` |
 
-## 8. Resultados verificados (13/11/2026)
+## 8. Resultados verificados
 
-- `./mvnw verify`: **63 testes unitários/web + 3 de integração no Oracle real — todos passaram.**
-- JSON real da API comparado com `docs/exemplos/` (4 JSONs + CSV): **idênticos**.
-- Banco do grupo intacto após os testes: 15 promessas, 12 metas, 6 subprefeituras, 17 + 7 ligações
-  (+ o admin de login criado pela API).
+- Versão anterior ao alinhamento com o Agile (13/11/2026): `./mvnw verify` com 63 testes unitários/web + 3 de integração no Oracle real, todos passando.
+- **A refazer após o alinhamento (campos `fonte` e `eixo_id`):** rodar `./mvnw verify`, recriar o esquema no Oracle (bloco DROP do `01_ddl.sql`, depois `01` e `02`), comparar o JSON com `docs/exemplos/` e refazer as capturas de tela. Preencha aqui o resultado.
 
 ## 9. Pendências
 
-- [ ] Preencher na Ficha: bairro piloto, indicador de impacto, Data Science, AR-VR, Rede.
+- [x] Ficha preenchida no README (Data Science ainda "a confirmar pelo grupo").
+- [ ] Rodar `./mvnw verify`, recriar o Oracle com os novos SQLs, refazer prints (formulário do admin e telas do bairro) e testar o deploy.
 - [x] GitHub: https://github.com/ArthurDev4/pra-todos-sp-java
-- [x] Deploy: https://pratodossp.onrender.com (rotas testadas; JSON idêntico aos exemplos). Falta o teste do Python do grupo usando `GET /promessas`.
+- [x] Deploy: https://pratodossp.onrender.com (rotas testadas; JSON idêntico aos exemplos). Retestar após recriar o banco.
 - [x] PDF gerado (`docs/Pra_Todos_SP_Documentacao_Java.pdf`); regerar com os links após GitHub e Render.

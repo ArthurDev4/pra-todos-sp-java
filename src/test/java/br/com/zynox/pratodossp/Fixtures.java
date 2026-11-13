@@ -39,6 +39,7 @@ public final class Fixtures {
         m.setValorAtual(new BigDecimal("12"));
         m.setValorAlvo(new BigDecimal("40"));
         m.setRegionalizacao(Regionalizacao.REGIONALIZADA);
+        m.setFonte("Programa de Metas (fictício)");
         m.setCriadoPor(admin());
         m.definirSubprefeituras(Set.of(itaquera(), capela()));
         return m;
@@ -62,6 +63,8 @@ public final class Fixtures {
         Promessa p = new Promessa();
         p.setId(id);
         p.setTexto(texto);
+        p.setEixo(meta != null ? meta.getEixo() : universoSp());
+        p.setFonte("Plano de governo (fictício)");
         p.setMeta(meta);
         p.setCriadoPor(admin());
         p.definirSubprefeituras(Set.of(regioes));

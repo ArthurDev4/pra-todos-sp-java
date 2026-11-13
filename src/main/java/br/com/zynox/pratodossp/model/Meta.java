@@ -56,6 +56,10 @@ public class Meta {
     @Column(name = "REGIONALIZACAO", nullable = false, length = 20)
     private Regionalizacao regionalizacao;
 
+    /** De onde vem a informacao da meta (texto ou link). Obrigatoria; sempre mostrada na tela. */
+    @Column(name = "FONTE", nullable = false, length = 200)
+    private String fonte;
+
     /** Admin que cadastrou (CRIADO_POR). Nao aparece no JSON. */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CRIADO_POR", nullable = false, updatable = false)
@@ -96,6 +100,8 @@ public class Meta {
     public void setValorAlvo(BigDecimal valorAlvo) { this.valorAlvo = valorAlvo; }
     public Regionalizacao getRegionalizacao() { return regionalizacao; }
     public void setRegionalizacao(Regionalizacao regionalizacao) { this.regionalizacao = regionalizacao; }
+    public String getFonte() { return fonte; }
+    public void setFonte(String fonte) { this.fonte = fonte; }
     public UsuarioAdmin getCriadoPor() { return criadoPor; }
     public void setCriadoPor(UsuarioAdmin criadoPor) { this.criadoPor = criadoPor; }
     public Set<Subprefeitura> getSubprefeituras() { return subprefeituras; }

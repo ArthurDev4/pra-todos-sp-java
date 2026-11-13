@@ -17,10 +17,6 @@ const REGIONALIZACAO = {
     SEM_REGIAO: "Esta meta ainda está sem região definida."
 };
 
-/** Fontes ficticias (o banco do grupo nao guarda fonte; todos os dados sao de demonstracao). */
-const FONTE_PROMESSA = "Plano de governo fictício (dados de demonstração)";
-const FONTE_META = "Programa de Metas fictício (dados de demonstração)";
-
 /** Escapa texto antes de colocar no HTML (evita injecao de codigo). */
 function esc(valor) {
     return String(valor ?? "").replace(/[&<>"']/g, c => (

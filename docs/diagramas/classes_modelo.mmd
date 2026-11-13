@@ -3,7 +3,9 @@ classDiagram
     class Promessa {
         -Long id
         -String texto
+        -Eixo eixo
         -Meta meta
+        -String fonte
         -UsuarioAdmin criadoPor
         -Set~Subprefeitura~ subprefeituras
         +getEstado() EstadoPromessa
@@ -19,6 +21,7 @@ classDiagram
         -BigDecimal valorAtual
         -BigDecimal valorAlvo
         -Regionalizacao regionalizacao
+        -String fonte
         -UsuarioAdmin criadoPor
         -Set~Subprefeitura~ subprefeituras
         +atendeSubprefeitura(Long) boolean
@@ -59,6 +62,7 @@ classDiagram
         VIROU_META
         NAO_VIROU_META
     }
+    Promessa "0..*" --> "1" Eixo : EIXO_ID
     Promessa "0..*" --> "0..1" Meta : META_ID
     Promessa "0..*" --> "0..*" Subprefeitura : PROMESSA_SUBPREFEITURA
     Promessa "0..*" --> "1" UsuarioAdmin : CRIADO_POR

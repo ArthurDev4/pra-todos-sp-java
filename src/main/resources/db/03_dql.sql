@@ -21,7 +21,7 @@ SELECT p.id     AS id_promessa,
 -- ---------------------------------------------------------------------
 -- Consulta 2: INNER JOIN com agrupamento (COUNT e GROUP BY)
 -- Quantidade de metas ligadas a cada subprefeitura.
--- Resultado esperado: 6 linhas; Itaquera lidera com 4 metas.
+-- Resultado esperado: 7 linhas; Itaquera lidera com 4 metas.
 -- ---------------------------------------------------------------------
 SELECT s.nome                AS subprefeitura,
        COUNT(ms.meta_id)     AS total_metas
@@ -142,7 +142,16 @@ SELECT p.texto, 'Não virou meta'
  WHERE s.nome = 'Itaquera' AND p.meta_id IS NULL
  ORDER BY 2, 1;
 
--- E10) Quantas metas e promessas cada administrador cadastrou (subconsultas com COUNT)
+-- E10) Promessas por área (eixo), com a fonte: apoio ao filtro por área da tela de promessas
+SELECT e.nome  AS area,
+       p.texto AS promessa,
+       p.fonte AS fonte,
+       CASE WHEN p.meta_id IS NULL THEN 'Não virou meta' ELSE 'Virou meta' END AS estado
+  FROM promessa p
+ INNER JOIN eixo e ON e.id = p.eixo_id
+ ORDER BY e.nome, p.id;
+
+-- E11) Quantas metas e promessas cada administrador cadastrou (subconsultas com COUNT)
 SELECT a.nome                                         AS administrador,
        (SELECT COUNT(*) FROM meta m     WHERE m.criado_por = a.id) AS metas_cadastradas,
        (SELECT COUNT(*) FROM promessa p WHERE p.criado_por = a.id) AS promessas_cadastradas

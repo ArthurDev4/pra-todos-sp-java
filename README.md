@@ -2,15 +2,17 @@
 
 | Campo | Resposta |
 |---|---|
-| **Nome** | Pra Todos SP |
-| **Cidade e bairro** | São Paulo. Bairro piloto: [a definir pelo grupo]. O protótipo usa subprefeituras reais de exemplo. |
-| **Cidadão beneficiado** | Morador de São Paulo com pouco tempo, que quer acompanhar a gestão da cidade sem ler PDFs. |
-| **Problema em uma frase** | O cidadão tem dificuldade de acompanhar o que o prefeito prometeu na campanha, o que virou meta oficial no Programa de Metas e o que isso muda no bairro dele. |
-| **Como funciona** | O cidadão escolhe o bairro (subprefeitura) e vê as promessas relacionadas à região. Cada promessa aparece como "virou meta oficial" (com status e, quando existir, o resultado numérico) ou "não virou meta". Um administrador cadastra e edita promessas e metas. Todos os dados são fictícios e a tela avisa isso. |
-| **O que cada parte faz** | **Database:** guarda eixos, subprefeituras, metas, promessas e administradores. **Java:** API REST (Spring Boot) que entrega os dados. **Dynamic Programming:** busca de promessas por semelhança, mesmo com erro de digitação, e responde se virou meta. **Data Science:** [a definir]. **AR-VR:** [a definir]. **Rede:** [a definir]. |
+| **Nome da CitizenTech** | Pra Todos SP |
+| **Cidade e bairro** | São Paulo (SP). Bairro piloto: Pinheiros, na zona oeste. O protótipo usa 7 subprefeituras de exemplo. |
+| **Cidadão beneficiado** | Morador da Grande São Paulo que quer acompanhar a gestão da prefeitura sem ler PDFs: o jovem que usa redes e apps e sente falta de fontes, e o morador idoso que pede letras grandes, linguagem simples e ver as regiões afetadas por cada promessa. |
+| **Problema em uma frase** | O morador de São Paulo não consegue saber, de forma simples, quais promessas do prefeito viraram meta e como estão andando no bairro dele. |
+| **Como funciona** | O cidadão escolhe o bairro (subprefeitura) e vê as promessas ligadas à região. Cada promessa mostra o estado: **virou meta oficial** (com o status em 3 etapas, o resultado numérico quando existir e a fonte) ou **não entrou no plano da prefeitura**. O cidadão só consulta, sem login. Um administrador, com login, cadastra e edita promessas e metas. Todos os dados do protótipo são **fictícios** e a tela avisa isso. |
+| **O que cada parte faz** | **Agile:** ideia, personas (das entrevistas), casos de uso, backlog com MoSCoW e protótipo de telas. **Database:** modelo Oracle com eixos, subprefeituras, metas, promessas e administradores. **Java:** API REST (Spring Boot) que entrega os dados do termômetro. **Dynamic Programming:** programa em Python com grafo das subprefeituras (BFS) e memoização, que mostra as promessas e metas do bairro e dos vizinhos. **Data Science:** análise de uma amostra de metas do Programa de Metas (regressão linear e logística) [a confirmar pelo grupo]. **AR-VR:** vídeo no Unreal Engine em uma biblioteca com um totem que mostra o termômetro. **Rede:** rede no Packet Tracer dessa biblioteca pública, com Wi-Fi do cidadão, servidor e segurança. |
 | **Link do repositório** | https://github.com/ArthurDev4/pra-todos-sp-java |
-| **Indicador de impacto** | [a definir pelo grupo] |
+| **Indicador de impacto** | Quantas pessoas conseguem descobrir, sozinhas e rápido, se uma promessa do bairro virou meta e como ela está andando. Meta: 8 de cada 10 pessoas acertarem em até 1 minuto. Como vamos medir: pedimos para algumas pessoas testarem o protótipo e anotamos quantas conseguem. |
 | **ODS conectados** | **ODS 10 (Redução das desigualdades):** combate a desigualdade territorial e de acesso à informação, dando ferramentas para que bairros historicamente menos atendidos fiscalizem se as promessas de campanha chegam às suas regiões como chegam às áreas centrais. **ODS 11 (Cidades e comunidades sustentáveis):** traduz um plano da cidade inteira para o nível da subprefeitura e do bairro do cidadão. |
+
+*Dados fictícios: prefeito, promessas, metas e números são inventados para o protótipo e não se referem a pessoas reais. São reais apenas os nomes dos eixos e das subprefeituras de São Paulo.*
 
 ---
 
@@ -119,7 +121,7 @@ Rotas de admin: faça `POST /login`, copie o `token` e envie `Authorization: Bea
 | GET | `/metas?eixoId=&status=&subprefeituraId=` | público | Metas com filtros opcionais |
 | GET | `/metas/{id}` | público | Uma meta com percentual e subprefeituras |
 | GET | `/metas/export` | público | CSV para Data Science |
-| GET | `/promessas?semMeta=&eixoId=` | público | Promessas com estado e meta (**usada pelo Python**) |
+| GET | `/promessas?semMeta=&eixoId=` | público | Promessas com estado e meta |
 | GET | `/promessas/{id}` | público | Uma promessa + subprefeituras próprias |
 | POST | `/login` | público | E-mail e senha → token JWT (401 se errado) |
 | POST | `/admins` | admin | Cria administrador (hash BCrypt; 409 se e-mail repetido) |
@@ -128,7 +130,7 @@ Rotas de admin: faça `POST /login`, copie o `token` e envie `Authorization: Bea
 | POST / DELETE | `/metas/{id}/subprefeituras/{subId}` | admin | Ligar/desligar meta e subprefeitura |
 | POST / DELETE | `/promessas/{id}/subprefeituras/{subId}` | admin | Ligar/desligar promessa **sem meta** (409 se tiver meta) |
 
-CORS liberado. Para o projeto Python: `PROMESSAS=https://<url-do-deploy>/promessas python app.py`.
+CORS liberado. O programa Python (Dynamic) usa dados de exemplo embutidos; opcionalmente lê o `GET /termometro` pela variável `TERMOMETRO`.
 
 ## Deploy no Render
 
@@ -155,7 +157,7 @@ No plano gratuito o serviço "dorme"; a primeira requisição pode levar cerca d
   ```
 
 ## Fora do escopo do MVP
-US12 (filtro por área, Should): aparece desabilitado na tela com "em breve". US13 (notícias e agenda, Could) e
+US12 (filtro por área, Should): já funciona na tela do bairro (filtro no navegador, sem rota nova). US13 (notícias e agenda, Could) e
 US14–US21 (Won't): não implementados.
 
 ## Uso de IA

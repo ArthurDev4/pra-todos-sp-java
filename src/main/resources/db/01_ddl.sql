@@ -52,6 +52,7 @@ CREATE TABLE META (
     valor_atual NUMBER(12,2),
     valor_alvo NUMBER(12,2),
     regionalizacao VARCHAR2(20) DEFAULT 'NAO_DIVULGADA' NOT NULL,
+    fonte VARCHAR2(200) NOT NULL,
     criado_por NUMBER(4) NOT NULL,
     CONSTRAINT PK_META PRIMARY KEY (id),
     CONSTRAINT UK_META_NUMERO UNIQUE (numero),
@@ -63,7 +64,9 @@ CREATE TABLE META (
 CREATE TABLE PROMESSA (
     id NUMBER(6) NOT NULL,
     texto VARCHAR2(300) NOT NULL,
+    eixo_id NUMBER(2) NOT NULL,
     meta_id NUMBER(4),
+    fonte VARCHAR2(200) NOT NULL,
     criado_por NUMBER(4) NOT NULL,
     CONSTRAINT PK_PROMESSA PRIMARY KEY (id)
 );
@@ -102,6 +105,9 @@ ALTER TABLE META
     ADD CONSTRAINT FK_META_ADMIN FOREIGN KEY (criado_por) REFERENCES USUARIO_ADMIN (id);
 
 ALTER TABLE PROMESSA
+    ADD CONSTRAINT FK_PROMESSA_EIXO FOREIGN KEY (eixo_id) REFERENCES EIXO (id);
+
+ALTER TABLE PROMESSA
     ADD CONSTRAINT FK_PROMESSA_META FOREIGN KEY (meta_id) REFERENCES META (id);
 
 ALTER TABLE PROMESSA
@@ -124,7 +130,7 @@ ALTER TABLE PROMESSA_SUBPREFEITURA
 -- ---------------------------------------------------------------------
 
 CREATE SEQUENCE SEQ_EIXO START WITH 5 INCREMENT BY 1 NOCACHE;
-CREATE SEQUENCE SEQ_SUBPREFEITURA START WITH 7 INCREMENT BY 1 NOCACHE;
+CREATE SEQUENCE SEQ_SUBPREFEITURA START WITH 8 INCREMENT BY 1 NOCACHE;
 CREATE SEQUENCE SEQ_META START WITH 13 INCREMENT BY 1 NOCACHE;
 CREATE SEQUENCE SEQ_PROMESSA START WITH 16 INCREMENT BY 1 NOCACHE;
 CREATE SEQUENCE SEQ_USUARIO_ADMIN START WITH 6 INCREMENT BY 1 NOCACHE;
@@ -140,5 +146,8 @@ COMMENT ON TABLE PROMESSA IS 'Promessas de campanha do prefeito fictício; sem m
 COMMENT ON TABLE META_SUBPREFEITURA IS 'Liga metas às subprefeituras (muitos para muitos). Meta sem ligação aparece como "sem região definida".';
 COMMENT ON TABLE PROMESSA_SUBPREFEITURA IS 'Liga promessas que não viraram meta às subprefeituras que elas atingem (muitos para muitos). Promessa de meta herda a região da meta.';
 COMMENT ON TABLE USUARIO_ADMIN IS 'Administradores que cadastram e editam promessas e metas (o cidadão não tem login).';
+COMMENT ON COLUMN META.fonte IS 'De onde vem a informação da meta (texto ou link)';
+COMMENT ON COLUMN PROMESSA.fonte IS 'De onde vem a promessa (texto ou link), por exemplo o plano de governo';
+COMMENT ON COLUMN PROMESSA.eixo_id IS 'Área da promessa (eixo). Se a promessa virou meta, é o mesmo eixo da meta (regra do BO)';
 COMMENT ON COLUMN META.status IS 'Etapa da meta: EM_PLANEJAMENTO, EM_PROGRESSO ou ATINGIDA';
 COMMENT ON COLUMN META.regionalizacao IS 'REGIONALIZADA (tem subprefeituras em META_SUBPREFEITURA), NAO_REGIONALIZAVEL ou NAO_DIVULGADA (ainda não divulgada)';

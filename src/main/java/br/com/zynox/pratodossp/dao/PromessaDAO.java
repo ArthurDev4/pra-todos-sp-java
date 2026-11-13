@@ -15,10 +15,10 @@ import java.util.Optional;
 @Repository
 public interface PromessaDAO extends JpaRepository<Promessa, Long> {
 
-    @EntityGraph(attributePaths = {"meta", "meta.eixo", "subprefeituras"})
+    @EntityGraph(attributePaths = {"eixo", "meta", "meta.eixo", "subprefeituras"})
     List<Promessa> findAllByOrderByIdAsc();
 
-    @EntityGraph(attributePaths = {"meta", "meta.eixo", "subprefeituras"})
+    @EntityGraph(attributePaths = {"eixo", "meta", "meta.eixo", "subprefeituras"})
     Optional<Promessa> findWithDetalhesById(Long id);
 
     /** Quantas promessas estao vinculadas a uma meta (impede excluir meta em uso). */

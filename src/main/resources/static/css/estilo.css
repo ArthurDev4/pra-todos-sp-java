@@ -133,3 +133,46 @@ form.formulario .regioes-check { border: 2px solid var(--borda); border-radius: 
 form.formulario .regioes-check label { display: inline-flex; align-items: center; gap: .35rem; font-weight: 500; margin: .3rem 1.2rem .3rem 0; }
 form.formulario .regioes-check input { width: 1.2rem; height: 1.2rem; }
 .oculto { display: none !important; }
+
+
+/* ---------- Visual v2: mais cor e profundidade, sem perder contraste ---------- */
+:root { --sombra: 0 2px 10px rgba(11, 61, 145, .10); --sombra-forte: 0 6px 18px rgba(11, 61, 145, .18); }
+body { background: linear-gradient(180deg, #e9f0fb 0, var(--fundo) 320px) no-repeat, var(--fundo); }
+header.topo {
+    background: linear-gradient(100deg, #072a66 0%, #0b3d91 55%, #1160c9 100%);
+    padding: .9rem max(1.2rem, calc((100% - 980px) / 2 + 1.2rem));  /* alinha com o conteudo */
+    box-shadow: 0 3px 12px rgba(7, 42, 102, .35); border-bottom: 4px solid #ffbf00;
+}
+header.topo h1 { font-size: 1.6rem; font-weight: 800; }
+header.topo a { padding: .3rem .8rem; border-radius: 999px; }
+header.topo a:hover { background: rgba(255, 255, 255, .18); }
+h2 { color: var(--primaria-escura); font-weight: 800; }
+h2::after { content: ""; display: block; width: 64px; height: 5px; border-radius: 3px; background: #ffbf00; margin-top: .35rem; }
+
+.botao-bairro { box-shadow: var(--sombra); border-width: 2px; border-radius: 16px; transition: transform .15s, box-shadow .15s, background .15s; }
+.botao-bairro:hover { transform: translateY(-3px); box-shadow: var(--sombra-forte); }
+.resumo div { box-shadow: var(--sombra); border: 0; border-top: 5px solid var(--primaria); }
+.resumo div:nth-child(2) { border-top-color: var(--verde); }
+.resumo div:nth-child(3) { border-top-color: var(--cinza); }
+.resumo strong { color: var(--primaria-escura); }
+.cartao { box-shadow: var(--sombra); border: 0; border-left: 6px solid var(--primaria); border-radius: 12px; transition: transform .15s, box-shadow .15s; }
+a.cartao:hover { transform: translateY(-2px); box-shadow: var(--sombra-forte); }
+.filtro-area { background: #fff; border-style: solid; border-color: #b9c8e6; box-shadow: var(--sombra); }
+.filtro-area select { padding: .25rem .5rem; border: 2px solid #8a929e; border-radius: 8px; background: #fff; }
+.alerta { box-shadow: var(--sombra); }
+.barra { height: 24px; box-shadow: inset 0 1px 3px rgba(0, 0, 0, .15); }
+.barra > span { background: linear-gradient(90deg, #0b3d91, #1c7ed6); }
+form.formulario { box-shadow: var(--sombra); border: 0; border-top: 5px solid var(--primaria); }
+.botao { box-shadow: 0 2px 6px rgba(11, 61, 145, .3); transition: transform .15s, background .15s; }
+.botao:hover { background: var(--primaria-escura); color: #fff; transform: translateY(-1px); }
+.abas button { border-radius: 999px; }
+table.lista { box-shadow: var(--sombra); border-radius: 10px; overflow: hidden; }
+table.lista th { background: var(--primaria); color: #fff; }
+table.lista tbody tr:nth-child(even) { background: #f3f6fb; }
+footer { border-top: 1px solid var(--borda); margin-top: 2rem; }
+
+/* Login centralizado (antes ficava torto, colado a esquerda do conteudo) */
+#tela-login { max-width: 460px; margin: 2.5rem auto 0; text-align: center; }
+#tela-login h2::after { margin-left: auto; margin-right: auto; }
+#tela-login form.formulario { max-width: none !important; text-align: left; }
+#tela-login .botao { width: 100%; padding: .7rem; font-size: 1.05rem; }

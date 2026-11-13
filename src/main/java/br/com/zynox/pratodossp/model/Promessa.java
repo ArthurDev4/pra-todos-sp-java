@@ -34,9 +34,18 @@ public class Promessa {
     @Column(name = "TEXTO", nullable = false, length = 300)
     private String texto;
 
+    /** Area da promessa (EIXO_ID). Se a promessa virou meta, e o mesmo eixo da meta (regra do BO). */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "EIXO_ID", nullable = false)
+    private Eixo eixo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "META_ID")
     private Meta meta;
+
+    /** De onde vem a promessa (texto ou link), por exemplo o plano de governo. Obrigatoria. */
+    @Column(name = "FONTE", nullable = false, length = 200)
+    private String fonte;
 
     /** Admin que cadastrou (CRIADO_POR). Nao aparece no JSON. */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -70,6 +79,10 @@ public class Promessa {
     public void setId(Long id) { this.id = id; }
     public String getTexto() { return texto; }
     public void setTexto(String texto) { this.texto = texto; }
+    public Eixo getEixo() { return eixo; }
+    public void setEixo(Eixo eixo) { this.eixo = eixo; }
+    public String getFonte() { return fonte; }
+    public void setFonte(String fonte) { this.fonte = fonte; }
     public Meta getMeta() { return meta; }
     public void setMeta(Meta meta) { this.meta = meta; }
     public UsuarioAdmin getCriadoPor() { return criadoPor; }

@@ -19,6 +19,7 @@ public record MetaResponse(
         @Schema(example = "40") BigDecimal valorAlvo,
         @Schema(example = "30.0") BigDecimal percentual,
         @Schema(example = "REGIONALIZADA") String regionalizacao,
+        @Schema(example = "Programa de Metas (fictício)") String fonte,
         @Schema(description = "IDs das subprefeituras (META_SUBPREFEITURA)", example = "[1, 2, 5]")
         List<Long> subprefeituras) {
 }

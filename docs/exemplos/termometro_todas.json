@@ -9,6 +9,8 @@
       {
         "id": 1,
         "texto": "Construir creches em todos os bairros",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -19,12 +21,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 2,
         "texto": "Acabar com a fila das creches",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -35,12 +40,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 3,
         "texto": "Reformar todos os postos de saúde",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 2,
@@ -51,12 +59,15 @@
           "valorAtual": 8,
           "valorAlvo": 30,
           "percentual": 26.7,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 6,
         "texto": "Entregar casas populares para famílias de baixa renda",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 5,
@@ -67,12 +78,15 @@
           "valorAtual": 600,
           "valorAlvo": 2000,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 15,
         "texto": "Iluminar todas as ruas com LED",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 12,
@@ -83,7 +97,8 @@
           "valorAtual": 40000,
           "valorAlvo": 100000,
           "percentual": 40.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
@@ -91,18 +106,24 @@
       {
         "id": 11,
         "texto": "Fazer um grande parque linear na zona leste",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       },
       {
         "id": 12,
         "texto": "Tarifa zero no transporte aos domingos",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       },
       {
         "id": 14,
         "texto": "Reduzir o IPTU de moradias populares",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       }
@@ -118,6 +139,8 @@
       {
         "id": 1,
         "texto": "Construir creches em todos os bairros",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -128,12 +151,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 2,
         "texto": "Acabar com a fila das creches",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -144,12 +170,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 10,
         "texto": "Wi-Fi gratuito em todas as praças",
+        "area": "Capital do Futuro",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 10,
@@ -160,12 +189,15 @@
           "valorAtual": 70,
           "valorAlvo": 100,
           "percentual": 70.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 15,
         "texto": "Iluminar todas as ruas com LED",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 12,
@@ -176,7 +208,8 @@
           "valorAtual": 40000,
           "valorAlvo": 100000,
           "percentual": 40.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
@@ -184,6 +217,8 @@
       {
         "id": 14,
         "texto": "Reduzir o IPTU de moradias populares",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       }
@@ -199,6 +234,8 @@
       {
         "id": 3,
         "texto": "Reformar todos os postos de saúde",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 2,
@@ -209,12 +246,15 @@
           "valorAtual": 8,
           "valorAlvo": 30,
           "percentual": 26.7,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 5,
         "texto": "Plantar mais árvores em toda a cidade",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 4,
@@ -225,12 +265,15 @@
           "valorAtual": 5000,
           "valorAlvo": 5000,
           "percentual": 100.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 10,
         "texto": "Wi-Fi gratuito em todas as praças",
+        "area": "Capital do Futuro",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 10,
@@ -241,7 +284,8 @@
           "valorAtual": 70,
           "valorAlvo": 100,
           "percentual": 70.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
@@ -257,6 +301,8 @@
       {
         "id": 5,
         "texto": "Plantar mais árvores em toda a cidade",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 4,
@@ -267,7 +313,8 @@
           "valorAtual": 5000,
           "valorAlvo": 5000,
           "percentual": 100.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
@@ -275,12 +322,16 @@
       {
         "id": 12,
         "texto": "Tarifa zero no transporte aos domingos",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       },
       {
         "id": 13,
         "texto": "Criar o museu da cidade",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       }
@@ -296,6 +347,8 @@
       {
         "id": 1,
         "texto": "Construir creches em todos os bairros",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -306,12 +359,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 2,
         "texto": "Acabar com a fila das creches",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 1,
@@ -322,12 +378,15 @@
           "valorAtual": 12,
           "valorAlvo": 40,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 6,
         "texto": "Entregar casas populares para famílias de baixa renda",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 5,
@@ -338,7 +397,8 @@
           "valorAtual": 600,
           "valorAlvo": 2000,
           "percentual": 30.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
@@ -346,6 +406,8 @@
       {
         "id": 11,
         "texto": "Fazer um grande parque linear na zona leste",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "NAO_VIROU_META",
         "meta": null
       }
@@ -361,6 +423,8 @@
       {
         "id": 10,
         "texto": "Wi-Fi gratuito em todas as praças",
+        "area": "Capital do Futuro",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 10,
@@ -371,12 +435,15 @@
           "valorAtual": 70,
           "valorAlvo": 100,
           "percentual": 70.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       },
       {
         "id": 15,
         "texto": "Iluminar todas as ruas com LED",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
         "estado": "VIROU_META",
         "meta": {
           "id": 12,
@@ -387,10 +454,95 @@
           "valorAtual": 40000,
           "valorAlvo": 100000,
           "percentual": 40.0,
-          "regionalizacao": "REGIONALIZADA"
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
         }
       }
     ],
     "naoViraramMeta": []
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 7,
+      "nome": "Pinheiros"
+    },
+    "promessas": [
+      {
+        "id": 5,
+        "texto": "Plantar mais árvores em toda a cidade",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 4,
+          "numero": 4,
+          "texto": "Plantar árvores em ruas e praças",
+          "eixo": "Viver São Paulo",
+          "status": "ATINGIDA",
+          "valorAtual": 5000,
+          "valorAlvo": 5000,
+          "percentual": 100.0,
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
+        }
+      },
+      {
+        "id": 10,
+        "texto": "Wi-Fi gratuito em todas as praças",
+        "area": "Capital do Futuro",
+        "fonte": "Plano de governo (fictício)",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 10,
+          "numero": 10,
+          "texto": "Levar internet gratuita a praças e bibliotecas",
+          "eixo": "Capital do Futuro",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 70,
+          "valorAlvo": 100,
+          "percentual": 70.0,
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
+        }
+      },
+      {
+        "id": 15,
+        "texto": "Iluminar todas as ruas com LED",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 12,
+          "numero": 12,
+          "texto": "Ampliar a iluminação em LED nas ruas",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 40000,
+          "valorAlvo": 100000,
+          "percentual": 40.0,
+          "regionalizacao": "REGIONALIZADA",
+          "fonte": "Programa de Metas (fictício)"
+        }
+      }
+    ],
+    "naoViraramMeta": [
+      {
+        "id": 12,
+        "texto": "Tarifa zero no transporte aos domingos",
+        "area": "Viver São Paulo",
+        "fonte": "Plano de governo (fictício)",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      },
+      {
+        "id": 13,
+        "texto": "Criar o museu da cidade",
+        "area": "Universo SP",
+        "fonte": "Plano de governo (fictício)",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      }
+    ]
   }
 ]

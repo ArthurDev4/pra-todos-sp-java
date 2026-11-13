@@ -8,6 +8,7 @@ import br.com.zynox.pratodossp.dto.PromessaResponse;
 import br.com.zynox.pratodossp.exception.ConflitoException;
 import br.com.zynox.pratodossp.exception.RecursoNaoEncontradoException;
 import br.com.zynox.pratodossp.exception.RegraNegocioException;
+import br.com.zynox.pratodossp.model.Eixo;
 import br.com.zynox.pratodossp.model.Meta;
 import br.com.zynox.pratodossp.model.Promessa;
 import br.com.zynox.pratodossp.model.Subprefeitura;
@@ -26,26 +27,29 @@ public class PromessaBO {
     private final PromessaDAO promessaDAO;
     private final MetaDAO metaDAO;
     private final SubprefeituraBO subprefeituraBO;
+    private final EixoBO eixoBO;
     private final AdminBO adminBO;
 
-    public PromessaBO(PromessaDAO promessaDAO, MetaDAO metaDAO, SubprefeituraBO subprefeituraBO, AdminBO adminBO) {
+    public PromessaBO(PromessaDAO promessaDAO, MetaDAO metaDAO, SubprefeituraBO subprefeituraBO,
+                      EixoBO eixoBO, AdminBO adminBO) {
         this.promessaDAO = promessaDAO;
         this.metaDAO = metaDAO;
         this.subprefeituraBO = subprefeituraBO;
+        this.eixoBO = eixoBO;
         this.adminBO = adminBO;
     }
 
     // ---------------------------------------------------------------- consultas
 
     /**
-     * GET /promessas (usada pelo projeto Python). Filtros opcionais:
-     * semMeta=true (so as que nao viraram meta) / false (so as que viraram) e eixoId (eixo da meta).
+     * GET /promessas. Filtros opcionais:
+     * semMeta=true (so as que nao viraram meta) / false (so as que viraram) e eixoId (area da propria promessa).
      */
     @Transactional(readOnly = true)
     public List<PromessaResponse> listar(Boolean semMeta, Long eixoId) {
         return promessaDAO.findAllByOrderByIdAsc().stream()
                 .filter(p -> semMeta == null || (p.getMeta() == null) == semMeta)
-                .filter(p -> eixoId == null || (p.getMeta() != null && p.getMeta().getEixo().getId().equals(eixoId)))
+                .filter(p -> eixoId == null || p.getEixo().getId().equals(eixoId))
                 .map(PromessaBO::paraResponse)
                 .toList();
     }
@@ -54,7 +58,7 @@ public class PromessaBO {
     public PromessaDetalheResponse buscar(Long id) {
         Promessa p = buscarEntidade(id);
         List<Long> subs = p.getSubprefeituras().stream().map(Subprefeitura::getId).sorted().toList();
-        return new PromessaDetalheResponse(p.getId(), p.getTexto(), p.getEstado(),
+        return new PromessaDetalheResponse(p.getId(), p.getTexto(), p.getEixo().getNome(), p.getFonte(), p.getEstado(),
                 p.getMeta() == null ? null : MetaBO.paraResumo(p.getMeta()), subs);
     }
 
@@ -115,7 +119,7 @@ public class PromessaBO {
     // ---------------------------------------------------------------- apoio
 
     public static PromessaResponse paraResponse(Promessa p) {
-        return new PromessaResponse(p.getId(), p.getTexto(), p.getEstado(),
+        return new PromessaResponse(p.getId(), p.getTexto(), p.getEixo().getNome(), p.getFonte(), p.getEstado(),
                 p.getMeta() == null ? null : MetaBO.paraResumo(p.getMeta()));
     }
 
@@ -126,8 +130,8 @@ public class PromessaBO {
 
     private PromessaDetalheResponse buscarSalva(Promessa salva) {
         List<Long> subs = salva.getSubprefeituras().stream().map(Subprefeitura::getId).sorted().toList();
-        return new PromessaDetalheResponse(salva.getId(), salva.getTexto(), salva.getEstado(),
-                salva.getMeta() == null ? null : MetaBO.paraResumo(salva.getMeta()), subs);
+        return new PromessaDetalheResponse(salva.getId(), salva.getTexto(), salva.getEixo().getNome(), salva.getFonte(),
+                salva.getEstado(), salva.getMeta() == null ? null : MetaBO.paraResumo(salva.getMeta()), subs);
     }
 
     private void aplicarDados(Promessa promessa, PromessaRequest req) {
@@ -135,6 +139,11 @@ public class PromessaBO {
         if (texto.isEmpty()) {
             throw new RegraNegocioException("O texto da promessa é obrigatório");
         }
+        String fonte = MetaBO.fonteObrigatoria(req.fonte(), "da promessa");
+        if (req.eixoId() == null) {
+            throw new RegraNegocioException("A área (eixo) da promessa é obrigatória");
+        }
+        Eixo eixo = eixoBO.buscarReferencia(req.eixoId());
         Set<Subprefeitura> regioes = subprefeituraBO.buscarReferencias(req.subprefeituraIds());
         Meta meta = null;
         if (req.metaId() != null) {
@@ -143,8 +152,14 @@ public class PromessaBO {
             if (!regioes.isEmpty()) {
                 throw new ConflitoException("Promessa com meta herda a região da meta: não informe subprefeituras");
             }
+            if (!meta.getEixo().getId().equals(eixo.getId())) {
+                throw new RegraNegocioException("A promessa com meta deve ter a mesma área (eixo) da meta: "
+                        + meta.getEixo().getNome());
+            }
         }
         promessa.setTexto(texto);
+        promessa.setEixo(eixo);
+        promessa.setFonte(fonte);
         promessa.setMeta(meta);
         // ao ligar a uma meta, as ligacoes com subprefeituras sao apagadas (regioes fica vazio)
         promessa.definirSubprefeituras(regioes);

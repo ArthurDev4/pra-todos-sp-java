@@ -78,6 +78,7 @@ function preencherSelects() {
     $("p-regioes").innerHTML = caixasRegioes();
     $("m-regioes").innerHTML = caixasRegioes();
     $("m-eixo").innerHTML = eixos.map(e => `<option value="${e.id}">${esc(e.nome)}</option>`).join("");
+    $("p-eixo").innerHTML = $("m-eixo").innerHTML;
     atualizarRegioesBox();
     atualizarRegioesPromessa();
 }
@@ -87,7 +88,7 @@ async function carregarPromessas() {
     const lista = await api("/promessas");
     $("lista-promessas").innerHTML = lista.map(p => `
       <tr>
-        <td>${p.id}</td><td>${esc(p.texto)}</td>
+        <td>${p.id}</td><td>${esc(p.texto)}<br><small>${esc(p.area)} · Fonte: ${esc(p.fonte)}</small></td>
         <td>${p.meta ? "Meta " + p.meta.numero + " · " + selo(p.meta.status) : selo("NAO_VIROU_META")}</td>
         <td>
           <button class="botao secundario pequeno" data-editar-promessa="${p.id}">Editar</button>
@@ -106,14 +107,25 @@ function atualizarRegioesPromessa() {
     $("p-regioes-box").disabled = !semMeta;
     if (!semMeta) $("p-regioes").querySelectorAll("input").forEach(c => c.checked = false);
 }
-$("p-meta").addEventListener("change", atualizarRegioesPromessa);
+/** Promessa com meta usa a mesma area (eixo) da meta: ao escolher a meta, a area acompanha. */
+function acompanharAreaDaMeta() {
+    const meta = metas.find(m => String(m.id) === $("p-meta").value);
+    if (!meta) { $("p-eixo").disabled = false; return; }
+    const eixo = eixos.find(e => e.nome === meta.eixo);
+    if (eixo) $("p-eixo").value = eixo.id;
+    $("p-eixo").disabled = true;
+}
+$("p-meta").addEventListener("change", () => { atualizarRegioesPromessa(); acompanharAreaDaMeta(); });
 
 function editarPromessa(p) {
     $("titulo-promessa").textContent = "Editar promessa #" + p.id;
     $("p-id").value = p.id;
     $("p-texto").value = p.texto;
     $("p-meta").value = p.meta ? p.meta.id : "";
+    $("p-eixo").value = eixos.find(e => e.nome === p.area)?.id ?? "";
+    $("p-fonte").value = p.fonte;
     atualizarRegioesPromessa();
+    acompanharAreaDaMeta();
     marcar("p-regioes", p.subprefeituras);
     $("p-texto").focus();
 }
@@ -121,7 +133,7 @@ function editarPromessa(p) {
 $("form-promessa").addEventListener("reset", () => {
     $("titulo-promessa").textContent = "Cadastrar promessa";
     $("p-id").value = "";
-    setTimeout(atualizarRegioesPromessa);
+    setTimeout(() => { atualizarRegioesPromessa(); acompanharAreaDaMeta(); $("p-fonte").value = "Plano de governo (fictício)"; });
 });
 
 $("form-promessa").addEventListener("submit", async ev => {
@@ -129,6 +141,8 @@ $("form-promessa").addEventListener("submit", async ev => {
     const id = $("p-id").value;
     const corpo = {
         texto: $("p-texto").value,
+        eixoId: Number($("p-eixo").value),
+        fonte: $("p-fonte").value,
         metaId: $("p-meta").value ? Number($("p-meta").value) : null,
         subprefeituraIds: idsMarcados("p-regioes")
     };
@@ -183,6 +197,7 @@ function editarMeta(m) {
     $("m-texto").value = m.texto;
     $("m-eixo").value = eixos.find(e => e.nome === m.eixo)?.id ?? "";
     $("m-status").value = m.status;
+    $("m-fonte").value = m.fonte;
     $("m-atual").value = m.valorAtual ?? "";
     $("m-alvo").value = m.valorAlvo ?? "";
     $("m-regionalizacao").value = m.regionalizacao;
@@ -194,7 +209,7 @@ function editarMeta(m) {
 $("form-meta").addEventListener("reset", () => {
     $("titulo-meta").textContent = "Cadastrar meta";
     $("m-id").value = "";
-    setTimeout(atualizarRegioesBox);
+    setTimeout(() => { atualizarRegioesBox(); $("m-fonte").value = "Programa de Metas (fictício)"; });
 });
 
 $("form-meta").addEventListener("submit", async ev => {
@@ -209,6 +224,7 @@ $("form-meta").addEventListener("submit", async ev => {
         valorAtual: numeroOuNulo($("m-atual").value),
         valorAlvo: numeroOuNulo($("m-alvo").value),
         regionalizacao: $("m-regionalizacao").value,
+        fonte: $("m-fonte").value,
         subprefeituraIds: idsMarcados("m-regioes")
     };
     try {

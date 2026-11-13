@@ -39,6 +39,13 @@ if (FONTES / "arial.ttf").exists():
     pdfmetrics.registerFont(TTFont("Codigo", str(FONTES / "consola.ttf")))
     pdfmetrics.registerFontFamily("Texto", normal="Texto", bold="Texto-B")
     F, FB, FC = "Texto", "Texto-B", "Codigo"
+elif Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf").exists():
+    DJ = Path("/usr/share/fonts/truetype/dejavu")
+    pdfmetrics.registerFont(TTFont("Texto", str(DJ / "DejaVuSans.ttf")))
+    pdfmetrics.registerFont(TTFont("Texto-B", str(DJ / "DejaVuSans-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont("Codigo", str(DJ / "DejaVuSansMono.ttf")))
+    pdfmetrics.registerFontFamily("Texto", normal="Texto", bold="Texto-B")
+    F, FB, FC = "Texto", "Texto-B", "Codigo"
 else:
     F, FB, FC = "Helvetica", "Helvetica-Bold", "Courier"
 
@@ -170,8 +177,9 @@ h += [p("1. Especificação do projeto", "H1"),
         "públicas."),
       p("Esta parte do projeto (disciplina Domain Driven Design - Java) é a <b>API RESTful em Spring Boot</b> que "
         "guarda e entrega esses dados a partir do banco Oracle da FIAP, mais as telas web que consomem a API. "
-        "A mesma API é usada pelo projeto Python do grupo (busca de promessas por semelhança), pela rota "
-        "<font name='%s'>GET /promessas</font>." % FC),
+        "O bairro piloto é <b>Pinheiros</b> (zona oeste); o protótipo traz 7 subprefeituras de exemplo. O programa "
+        "Python do grupo (Dynamic Programming) usa dados de exemplo embutidos e, se quiser, lê a rota "
+        "<font name='%s'>GET /termometro</font> desta API." % FC),
       p("<b>Todos os dados são fictícios</b>: prefeito, promessas e metas foram inventados pela equipe; reais são "
         "apenas os nomes dos 4 eixos do Programa de Metas e das subprefeituras. As telas mostram esse aviso."),
       p("1.2 Problema", "H2"),
@@ -213,7 +221,7 @@ h += [p("1. Especificação do projeto", "H1"),
           ["US02", "Ver as promessas do bairro com o estado", "GET /subprefeituras/{id}/termometro + Tela 2"],
           ["US03", "Saber se virou meta ou não entrou no plano", "Campo estado (VIROU_META / NAO_VIROU_META)"],
           ["US04", "Status da meta e resultado numérico", "status, valorAtual, valorAlvo e percentual"],
-          ["US05", "Fonte de cada promessa e meta", "Fonte (fictícia) exibida nas Telas 2 e 3"],
+          ["US05", "Fonte de cada promessa e meta", "Campo fonte (obrigatório) guardado e exibido nas Telas 2 e 3"],
           ["US06", "Aviso de região não definida", "regionalizacao (NAO_DIVULGADA etc.) + aviso na Tela 3"],
           ["US07", "Letras grandes, contraste, linguagem simples", "CSS acessível; ícone + texto + cor"],
           ["US08", "Login do administrador", "POST /login (JWT) + Tela 4"],
@@ -223,8 +231,8 @@ h += [p("1. Especificação do projeto", "H1"),
           ["US11", "Vincular promessa a uma meta ou deixá-la sem meta", "PUT /promessas/{id} (metaId)"],
       ], [1.6, 7.2, 8.2]),
       Spacer(1, 6),
-      p("<b>Fora do MVP</b> (MoSCoW): US12 filtro por área (Should) aparece desabilitado na tela com o texto "
-        "\"em breve\"; US13 notícias e agenda (Could) e US14 a US21 (Won't) não foram implementadas."),
+      p("<b>Fora do MVP</b> (MoSCoW): US12 filtro por área (Should) foi implementado de forma simples, no navegador, "
+        "usando a área (eixo) de cada promessa; US13 notícias e agenda (Could) e US14 a US21 (Won't) não foram implementadas."),
       PageBreak()]
 
 # ------------------------------------------------------------------ 2. arquitetura
@@ -288,14 +296,14 @@ h += [p("3. Diagrama de classes", "H1"),
 PR = DOCS / "prints"
 h += [p("4. Protótipos das telas", "H1"),
       p("As imagens a seguir são <b>capturas reais</b> do front-end implementado, rodando com a API conectada ao "
-        "Oracle da FIAP e aos dados fictícios do grupo. As telas seguem os protótipos da documentação Agile."),
+        "aos dados fictícios de exemplo do grupo (docs/exemplos). As telas seguem os protótipos da documentação Agile."),
       p("4.1 Tela 1 — Escolha do bairro", "H2"),
       figura(PR / "tela1_escolha_bairro.png", "Tela 1 — o cidadão escolhe a subprefeitura (GET /subprefeituras)."),
       PageBreak(),
       p("4.2 Tela 2 — Termômetro do bairro", "H2"),
       figura(PR / "tela2_termometro_itaquera.png",
-             "Tela 2 — Itaquera: resumo, promessas que viraram meta e as que não entraram no plano "
-             "(GET /subprefeituras/1/termometro).", max_alt=ALT - 2 * cm),
+             "Tela 2 — Pinheiros (bairro piloto): resumo, filtro por área, promessas que viraram meta e as que não entraram no plano "
+             "(GET /subprefeituras/7/termometro).", max_alt=ALT - 2 * cm),
       PageBreak(),
       p("4.3 Tela 3 — Detalhe da promessa e da meta", "H2"),
       figura(PR / "tela3_detalhe_meta_regionalizada.png",
@@ -327,7 +335,7 @@ h += [p("5. Tabela de endpoints", "H1"),
           ["GET", "/metas?eixoId=&status=&subprefeituraId=", "Metas com filtros opcionais", "Público", "200, 400"],
           ["GET", "/metas/{id}", "Uma meta com percentual e subprefeituras", "Público", "200, 404"],
           ["GET", "/metas/export", "Metas em CSV (Data Science)", "Público", "200"],
-          ["GET", "/promessas?semMeta=&eixoId=", "Promessas com estado e meta (usada pelo Python)", "Público", "200"],
+          ["GET", "/promessas?semMeta=&eixoId=", "Promessas com área, fonte, estado e meta", "Público", "200"],
           ["GET", "/promessas/{id}", "Uma promessa com suas subprefeituras", "Público", "200, 404"],
           ["POST", "/login", "Login: devolve o token JWT", "Público", "200, 400, 401"],
           ["POST", "/admins", "Cria administrador (hash BCrypt)", "Admin", "201, 400, 401, 409"],
@@ -349,12 +357,13 @@ h += [p("5. Tabela de endpoints", "H1"),
 { "aviso": "Dados fictícios",
   "subprefeitura": {"id": 1, "nome": "Itaquera"},
   "promessas": [
-    {"id": 3, "texto": "Reformar todos os postos de saúde", "estado": "VIROU_META",
-     "meta": {"id": 2, "numero": 2, "texto": "Reformar unidades básicas de saúde da cidade",
-              "eixo": "Universo SP", "status": "EM_PROGRESSO", "valorAtual": 8, "valorAlvo": 30,
-              "percentual": 26.7, "regionalizacao": "REGIONALIZADA"}} ],
+    {"id": 1, "texto": "Construir creches em todos os bairros", "area": "Universo SP",
+     "fonte": "Plano de governo (fictício)", "estado": "VIROU_META",
+     "meta": {"id": 1, "numero": 1, "texto": "Ampliar a rede de creches...", "eixo": "Universo SP",
+              "status": "EM_PROGRESSO", "valorAtual": 12, "valorAlvo": 40, "percentual": 30.0,
+              "regionalizacao": "REGIONALIZADA", "fonte": "Programa de Metas (fictício)"}} ],
   "naoViraramMeta": [
-    {"id": 11, "texto": "Fazer um grande parque linear na zona leste",
+    {"id": 11, "texto": "...", "area": "Viver São Paulo", "fonte": "Plano de governo (fictício)",
      "estado": "NAO_VIROU_META", "meta": null} ] }
 """),
       exemplo("<b>POST /login</b> → 200:", """
@@ -364,9 +373,13 @@ Resposta:   {"token": "eyJhbGciOiJIUzI1NiJ9...", "tipo": "Bearer", "expiraEmSegu
 """),
       exemplo("<b>POST /metas</b> (Authorization: Bearer ...) → 201 Created:", """
 {"numero": 13, "texto": "Construir 5 novos parques urbanos", "eixoId": 2, "status": "EM_PROGRESSO",
- "valorAtual": 2, "valorAlvo": 5, "regionalizacao": "REGIONALIZADA", "subprefeituraIds": [1, 4]}
+ "valorAtual": 2, "valorAlvo": 5, "regionalizacao": "REGIONALIZADA",
+ "fonte": "Programa de Metas (fictício)", "subprefeituraIds": [1, 4]}
 """),
-      exemplo("<b>PUT /promessas/11</b> → 200 (liga a promessa à meta 9; as ligações com subprefeituras são apagadas):", '{"texto": "Fazer um grande parque linear na zona leste", "metaId": 9}'),
+      exemplo("<b>PUT /promessas/11</b> → 200 (liga a promessa à meta 9; as ligações com subprefeituras são apagadas):", """
+{"texto": "Fazer um grande parque linear na zona leste", "eixoId": 2,
+ "fonte": "Plano de governo (fictício)", "metaId": 9}
+"""),
       exemplo("<b>DELETE /metas/1</b> → 409 Conflict (erro padronizado):", """
 {"timestamp": "2026-11-13T10:00:00", "status": 409, "error": "CONFLICT",
  "message": "A meta 1 tem 2 promessa(s) ligada(s). Desligue ou apague essas promessas antes.",
@@ -376,14 +389,14 @@ Resposta:   {"token": "eyJhbGciOiJIUzI1NiJ9...", "tipo": "Bearer", "expiraEmSegu
 
 # ------------------------------------------------------------------ 6. DER
 h += [p("6. Diagrama Entidade-Relacionamento (DER)", "H1"),
-      p("Banco Oracle definido pelo grupo (script 01_ddl.sql, disciplina Database Design), usado pela API sem "
-        "alterações. Chaves primárias com sequences SEQ_&lt;TABELA&gt;; as tabelas de ligação têm chave composta."),
-      figura(DG / "der.png", "Figura 5 — DER do Pra Todos SP (7 tabelas).", max_alt=ALT - 9.5 * cm),
+      p("Banco Oracle definido pelo grupo (script 01_ddl.sql, disciplina Database Design), usado pela API "
+        "(versão alinhada ao Agile: fonte em META e PROMESSA, área da promessa em eixo_id). Chaves primárias com sequences SEQ_&lt;TABELA&gt;; as tabelas de ligação têm chave composta."),
+      figura(DG / "der.png", "Figura 5 — DER do Pra Todos SP (7 tabelas).", max_alt=ALT - 12.5 * cm),
       tabela(["Tabela", "Descrição"], [
           ["EIXO", "Os 4 eixos do Programa de Metas."],
           ["SUBPREFEITURA", "Subprefeituras de São Paulo (o bairro que o cidadão escolhe)."],
-          ["META", "Meta oficial: número único, eixo, status, valores opcionais (juntos) e regionalização."],
-          ["PROMESSA", "Promessa de campanha; META_ID vazio = não virou meta."],
+          ["META", "Meta oficial: número único, eixo, status, valores opcionais (juntos), regionalização e fonte."],
+          ["PROMESSA", "Promessa de campanha com área (EIXO_ID) e fonte; META_ID vazio = não virou meta."],
           ["META_SUBPREFEITURA", "Liga metas REGIONALIZADAS às subprefeituras (N:N)."],
           ["PROMESSA_SUBPREFEITURA", "Liga promessas sem meta às subprefeituras (N:N)."],
           ["USUARIO_ADMIN", "Administradores; senha só como hash BCrypt; cadastram metas e promessas (CRIADO_POR)."],
@@ -396,6 +409,7 @@ h += [p("7. Regras de negócio e tratamento de exceções", "H1"),
           ["Percentual = valor atual ÷ valor alvo × 100, com 1 casa; null sem valor alvo", "MetaBO.calcularPercentual", "—"],
           ["Valor atual e valor alvo juntos ou nenhum; atual não negativo; alvo maior que zero", "MetaBO.validarValores", "400"],
           ["REGIONALIZADA precisa de ao menos uma subprefeitura; as demais não podem ter", "MetaBO.validarRegionalizacao", "400 / 409"],
+          ["Fonte obrigatória (meta e promessa); área da promessa obrigatória e igual à do eixo da meta, se houver", "MetaBO.fonteObrigatoria, PromessaBO", "400"],
           ["Número de meta único", "MetaBO.cadastrar / atualizar", "409"],
           ["Não apagar meta com promessas ligadas", "MetaBO.excluir", "409"],
           ["Promessa com meta herda a região da meta; só promessa sem meta liga a subprefeituras", "PromessaBO", "409"],
@@ -412,10 +426,10 @@ h += [p("7. Regras de negócio e tratamento de exceções", "H1"),
         "a lista de campos, e qualquer erro inesperado → 500 com mensagem genérica (o detalhe vai só para o log). "
         "Os erros 401 e 403 da camada de segurança são escritos no mesmo formato pelo ErroSegurancaHandler."),
       p("7.1 Testes automatizados", "H2"),
-      p("<font name='%s'>./mvnw verify</font> executa <b>63 testes</b> unitários e de camada web (BO e MODEL com "
-        "Mockito; Controllers com MockMvc e a segurança real) e <b>3 testes de integração</b> no Oracle FIAP "
-        "(OracleIntegracaoIT, com rollback). Resultado na última execução: todos aprovados. O JSON da API também "
-        "foi comparado campo a campo com os exemplos do grupo (termômetro, promessas, metas e CSV): idênticos." % FC),
+      p("<font name='%s'>./mvnw verify</font> executa os testes unitários e de camada web (BO e MODEL com "
+        "Mockito; Controllers com MockMvc e a segurança real) e os testes de integração no Oracle FIAP "
+        "(OracleIntegracaoIT, com rollback). Os testes devem ser executados pela equipe com o esquema novo do banco antes da entrega; o JSON da API "
+        "deve ser comparado com os exemplos do grupo em docs/exemplos." % FC),
       PageBreak()]
 
 # ------------------------------------------------------------------ 8. instrucoes
@@ -454,9 +468,8 @@ h += [p("8. Instruções de execução", "H1"),
               "O Render informa a porta pela variável PORT; a aplicação já lê esse valor.",
               "Após o deploy, testar /subprefeituras/1/termometro e /swagger-ui.html no endereço publicado.",
               "No plano gratuito o serviço hiberna sem uso; a primeira requisição pode levar cerca de 1 minuto."]),
-      p("8.5 Integração com o projeto Python", "H2"),
-      p("O projeto de Dynamic Programming lê as promessas da API: "
-        "<font name='%s'>PROMESSAS=&lt;link do deploy&gt;/promessas python app.py</font>." % FC),
+      p("O projeto de Dynamic Programming roda com dados de exemplo embutidos; opcionalmente lê a API com "
+        "<font name='%s'>TERMOMETRO=&lt;link do deploy&gt;/termometro python app.py</font>." % FC),
       PageBreak()]
 
 # ------------------------------------------------------------------ 9. rastreabilidade
@@ -466,7 +479,7 @@ h += [p("9. Rastreabilidade", "H1"),
           ["US02", "UC02", "GET /subprefeituras/{id}/termometro", "TermometroBO", "TermometroBOTest, OracleIntegracaoIT"],
           ["US03", "UC03", "GET /promessas?semMeta=", "Promessa.getEstado, PromessaBO", "ModelTest, PromessaBOTest"],
           ["US04", "UC04", "GET /metas/{id}", "MetaBO.calcularPercentual", "MetaBOTest.percentual"],
-          ["US05", "UC04", "(telas 2 e 3)", "static/js/comum.js", "capturas da seção 4"],
+          ["US05", "UC04", "campo fonte em /metas e /promessas", "MetaBO.fonteObrigatoria, PromessaBO", "MetaBOTest, PromessaBOTest"],
           ["US06", "UC06", "GET /metas/{id}", "MetaBO.validarRegionalizacao", "MetaBOTest.regionalizacao"],
           ["US07", "todos", "—", "static/css/estilo.css", "capturas da seção 4"],
           ["US08", "UC07", "POST /login, POST /admins", "AdminBO, JwtService, SecurityConfig", "AdminBOTest, AdminControllerTest"],

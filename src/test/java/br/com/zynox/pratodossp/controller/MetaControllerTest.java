@@ -41,7 +41,8 @@ class MetaControllerTest {
 
     static final String JSON = """
             {"numero":13,"texto":"Construir 5 novos parques","eixoId":2,"status":"EM_PROGRESSO",
-             "valorAtual":2,"valorAlvo":5,"regionalizacao":"REGIONALIZADA","subprefeituraIds":[1]}""";
+             "valorAtual":2,"valorAlvo":5,"regionalizacao":"REGIONALIZADA",
+             "fonte":"Programa de Metas (fictício)","subprefeituraIds":[1]}""";
 
     @Autowired MockMvc mvc;
     @Autowired JwtService jwtService;

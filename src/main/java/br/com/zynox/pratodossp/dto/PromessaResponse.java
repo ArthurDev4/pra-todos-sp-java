@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record PromessaResponse(
         @Schema(example = "1") Long id,
         @Schema(example = "Construir creches em todos os bairros") String texto,
+        @Schema(description = "Área da promessa (eixo)", example = "Universo SP") String area,
+        @Schema(example = "Plano de governo (fictício)") String fonte,
         @Schema(example = "VIROU_META") EstadoPromessa estado,
         @Schema(description = "Meta ligada; null quando não virou meta") MetaResumoResponse meta) {
 }

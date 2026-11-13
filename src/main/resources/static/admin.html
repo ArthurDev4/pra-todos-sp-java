@@ -23,7 +23,7 @@
     <!-- Login (US08) -->
     <section id="tela-login">
         <h2>Entrar como administrador</h2>
-        <form id="form-login" class="formulario" style="max-width:480px">
+        <form id="form-login" class="formulario">
             <label for="login-email">E-mail</label>
             <input id="login-email" type="email" required autocomplete="username">
             <label for="login-senha">Senha</label>
@@ -46,6 +46,10 @@
                 <input type="hidden" id="p-id">
                 <label for="p-texto">Texto da promessa</label>
                 <textarea id="p-texto" rows="2" required maxlength="300"></textarea>
+                <label for="p-eixo">Área da promessa</label>
+                <select id="p-eixo" required></select>
+                <label for="p-fonte">Fonte da promessa <span class="dica">(texto ou link; obrigatória)</span></label>
+                <input id="p-fonte" type="text" required maxlength="200" value="Plano de governo (fictício)">
                 <label for="p-meta">Meta vinculada <span class="dica">(opcional — vazio significa que não entrou no plano)</span></label>
                 <select id="p-meta"></select>
                 <fieldset id="p-regioes-box" class="regioes-check" style="margin-top:.8rem">
@@ -86,6 +90,8 @@
                     <div><label for="m-atual">Valor atual <span class="dica">(opcional, ≥ 0)</span></label><input id="m-atual" type="number" min="0" step="any"></div>
                     <div><label for="m-alvo">Valor alvo <span class="dica">(opcional, &gt; 0)</span></label><input id="m-alvo" type="number" min="0" step="any"></div>
                 </div>
+                <label for="m-fonte">Fonte da meta <span class="dica">(texto ou link; obrigatória)</span></label>
+                <input id="m-fonte" type="text" required maxlength="200" value="Programa de Metas (fictício)">
                 <label for="m-regionalizacao">Regionalização</label>
                 <select id="m-regionalizacao" required>
                     <option value="REGIONALIZADA">Regionalizada (tem regiões definidas)</option>

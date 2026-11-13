@@ -23,12 +23,15 @@ erDiagram
         NUMBER valor_atual
         NUMBER valor_alvo
         VARCHAR2 regionalizacao
+        VARCHAR2 fonte
         NUMBER criado_por FK
     }
     PROMESSA {
         NUMBER id PK
         VARCHAR2 texto
+        NUMBER eixo_id FK
         NUMBER meta_id FK
+        VARCHAR2 fonte
         NUMBER criado_por FK
     }
     META_SUBPREFEITURA {
@@ -40,6 +43,7 @@ erDiagram
         NUMBER subprefeitura_id PK,FK
     }
     EIXO ||--o{ META : agrupa
+    EIXO ||--o{ PROMESSA : classifica
     USUARIO_ADMIN ||--o{ META : cadastra
     USUARIO_ADMIN ||--o{ PROMESSA : cadastra
     META |o--o{ PROMESSA : origina

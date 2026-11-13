@@ -183,7 +183,17 @@ public class MetaBO {
         meta.setValorAtual(req.valorAtual());
         meta.setValorAlvo(req.valorAlvo());
         meta.setRegionalizacao(req.regionalizacao());
+        meta.setFonte(fonteObrigatoria(req.fonte(), "da meta"));
         meta.definirSubprefeituras(regioes);
+    }
+
+    /** A fonte e obrigatoria (texto ou link) e nao pode ser so espacos. */
+    static String fonteObrigatoria(String fonte, String de) {
+        String f = fonte == null ? "" : fonte.trim();
+        if (f.isEmpty()) {
+            throw new RegraNegocioException("A fonte " + de + " é obrigatória");
+        }
+        return f;
     }
 
     /** valor_atual e valor_alvo juntos ou nenhum; atual nao negativo; alvo maior que 0 (= CK_META_VALORES). */
@@ -214,14 +224,14 @@ public class MetaBO {
     public static MetaResumoResponse paraResumo(Meta m) {
         return new MetaResumoResponse(m.getId(), m.getNumero(), m.getTexto(), m.getEixo().getNome(),
                 m.getStatus().name(), m.getValorAtual(), m.getValorAlvo(),
-                calcularPercentual(m.getValorAtual(), m.getValorAlvo()), m.getRegionalizacao().name());
+                calcularPercentual(m.getValorAtual(), m.getValorAlvo()), m.getRegionalizacao().name(), m.getFonte());
     }
 
     public static MetaResponse paraResponse(Meta m) {
         List<Long> subs = m.getSubprefeituras().stream().map(Subprefeitura::getId).sorted().toList();
         return new MetaResponse(m.getId(), m.getNumero(), m.getTexto(), m.getEixo().getNome(),
                 m.getStatus().name(), m.getValorAtual(), m.getValorAlvo(),
-                calcularPercentual(m.getValorAtual(), m.getValorAlvo()), m.getRegionalizacao().name(), subs);
+                calcularPercentual(m.getValorAtual(), m.getValorAlvo()), m.getRegionalizacao().name(), m.getFonte(), subs);
     }
 
     /** Valores sem zeros desnecessarios (12, nao 12.00). */

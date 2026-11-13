@@ -18,5 +18,6 @@ public record MetaResumoResponse(
         @Schema(example = "12") BigDecimal valorAtual,
         @Schema(example = "40") BigDecimal valorAlvo,
         @Schema(example = "30.0") BigDecimal percentual,
-        @Schema(example = "REGIONALIZADA") String regionalizacao) {
+        @Schema(example = "REGIONALIZADA") String regionalizacao,
+        @Schema(example = "Programa de Metas (fictício)") String fonte) {
 }

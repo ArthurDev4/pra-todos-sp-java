@@ -15,7 +15,7 @@ async function telaBairros() {
       <div class="grade-bairros">
         ${regioes.map(r => `
           <button class="botao-bairro" data-id="${r.id}">
-            ${esc(r.nome)}
+            ${esc(r.nome)}${r.nome === "Pinheiros" ? ' <span class="selo-piloto">Bairro piloto</span>' : ""}
             <small>Ver promessas da região</small>
           </button>`).join("")}
       </div>`;
@@ -27,11 +27,11 @@ async function telaBairros() {
 function cartao(p, bairro) {
     return `
       <a class="cartao" href="#/promessa/${p.id}?bairro=${bairro}">
-        ${p.meta ? `<span class="etiqueta">${esc(p.meta.eixo)}</span>` : ""}
+        <span class="etiqueta">${esc(p.area)}</span>
         <p class="texto">${esc(p.texto)}</p>
         ${seloDaPromessa(p)}
         ${p.meta && p.meta.percentual !== null ? `<span class="etiqueta">${formatarNumero(p.meta.percentual)}% da meta</span>` : ""}
-        ${fonteHtml("Fonte", FONTE_PROMESSA)}
+        ${fonteHtml("Fonte", p.fonte)}
       </a>`;
 }
 
@@ -46,16 +46,28 @@ async function telaTermometro(id) {
         <div><strong>${t.promessas.length}</strong> viraram meta oficial</div>
         <div><strong>${t.naoViraramMeta.length}</strong> não entraram no plano</div>
       </div>
-      <div class="filtro-area" aria-disabled="true">
-        Filtro por área:
-        <select disabled aria-label="Filtro por área, indisponível"><option>Todas</option></select>
-        <em>em breve — fora do MVP (US12)</em>
+      <div class="filtro-area">
+        <label for="filtro-area">Filtrar por área:</label>
+        <select id="filtro-area">
+          <option value="">Todas</option>
+          ${[...new Set([...t.promessas, ...t.naoViraramMeta].map(p => p.area))].sort()
+              .map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join("")}
+        </select>
       </div>
       ${LEGENDA}
-      <h3>Viraram meta oficial</h3>
-      ${t.promessas.length ? t.promessas.map(p => cartao(p, id)).join("") : "<p>Nenhuma promessa desta região virou meta.</p>"}
-      <h3>Não entraram no plano da prefeitura</h3>
-      ${t.naoViraramMeta.length ? t.naoViraramMeta.map(p => cartao(p, id)).join("") : "<p>Nenhuma.</p>"}`;
+      <div id="listas"></div>`;
+    const desenhar = () => {
+        const area = document.getElementById("filtro-area").value;
+        const filtra = lista => lista.filter(p => !area || p.area === area);
+        const a = filtra(t.promessas), b = filtra(t.naoViraramMeta);
+        document.getElementById("listas").innerHTML = `
+          <h3>Viraram meta oficial</h3>
+          ${a.length ? a.map(p => cartao(p, id)).join("") : "<p>Nenhuma promessa desta região virou meta.</p>"}
+          <h3>Não entraram no plano da prefeitura</h3>
+          ${b.length ? b.map(p => cartao(p, id)).join("") : "<p>Nenhuma.</p>"}`;
+    };
+    document.getElementById("filtro-area").addEventListener("change", desenhar);
+    desenhar();
 }
 
 // ------------------------------------------------------------------ Tela 3
@@ -90,7 +102,7 @@ async function telaDetalhe(id, bairro) {
             ${progresso}
             ${nomes.length ? `<p><b>Regiões afetadas:</b> ${nomes.map(esc).join(", ")}</p>` : ""}
             <div class="alerta ${alerta ? "" : "info"}">${alerta ? "⚠ " : "ℹ "}${esc(aviso)}</div>
-            ${fonteHtml("Fonte da meta", FONTE_META)}
+            ${fonteHtml("Fonte da meta", m.fonte)}
           </div>`;
     }
     conteudo.innerHTML = `
@@ -98,7 +110,8 @@ async function telaDetalhe(id, bairro) {
       <h2>Detalhe da promessa</h2>
       <div class="cartao">
         <p class="texto">${esc(p.texto)}</p>
-        ${fonteHtml("Fonte da promessa", FONTE_PROMESSA)}
+        <p><b>Área:</b> ${esc(p.area)}</p>
+        ${fonteHtml("Fonte da promessa", p.fonte)}
       </div>
       ${blocoMeta}`;
 }

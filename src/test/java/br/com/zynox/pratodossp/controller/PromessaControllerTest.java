@@ -45,7 +45,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class PromessaControllerTest {
 
-    static final String JSON = "{\"texto\":\"Construir uma praça\",\"metaId\":null,\"subprefeituraIds\":[1]}";
+    static final String JSON = "{\"texto\":\"Construir uma praça\",\"eixoId\":2,\"metaId\":null,"
+            + "\"fonte\":\"Plano de governo (fictício)\",\"subprefeituraIds\":[1]}";
 
     @Autowired MockMvc mvc;
     @Autowired JwtService jwtService;
@@ -56,7 +57,8 @@ class PromessaControllerTest {
     }
 
     PromessaDetalheResponse detalhe(Long id) {
-        return new PromessaDetalheResponse(id, "Construir uma praça", EstadoPromessa.NAO_VIROU_META, null, List.of(1L));
+        return new PromessaDetalheResponse(id, "Construir uma praça", "Viver São Paulo", "Plano de governo (fictício)",
+                EstadoPromessa.NAO_VIROU_META, null, List.of(1L));
     }
 
     @Test
@@ -128,7 +130,7 @@ class PromessaControllerTest {
     @DisplayName("POST sem texto = 400 com erro por campo; JSON invalido = 400; regra violada = 400/409")
     void validacoes() throws Exception {
         mvc.perform(post("/promessas").header("Authorization", admin())
-                        .contentType(MediaType.APPLICATION_JSON).content("{\"texto\":\"\"}"))
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"texto\":\"\",\"eixoId\":2,\"fonte\":\"Plano\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.campos[0].campo").value("texto"));
         mvc.perform(post("/promessas").header("Authorization", admin())

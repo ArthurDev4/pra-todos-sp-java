@@ -59,7 +59,8 @@ class MetaBOTest {
     }
 
     private MetaRequest req(BigDecimal atual, BigDecimal alvo, Regionalizacao reg, List<Long> subs) {
-        return new MetaRequest(13, "Construir 5 novos parques", 1L, StatusMeta.EM_PROGRESSO, atual, alvo, reg, subs);
+        return new MetaRequest(13, "Construir 5 novos parques", 1L, StatusMeta.EM_PROGRESSO, atual, alvo, reg,
+                "Programa de Metas (fictício)", subs);
     }
 
     // ------------------------------------------------------------ percentual
@@ -100,6 +101,7 @@ class MetaBOTest {
         assertThat(r.eixo()).isEqualTo("Universo SP");
         assertThat(r.status()).isEqualTo("EM_PROGRESSO");
         assertThat(r.regionalizacao()).isEqualTo("REGIONALIZADA");
+        assertThat(r.fonte()).isEqualTo("Programa de Metas (fictício)");
         assertThat(r.subprefeituras()).containsExactly(1L, 2L);
     }
 
@@ -173,7 +175,7 @@ class MetaBOTest {
     void referenciasInexistentes() {
         when(eixoDAO.findById(99L)).thenReturn(Optional.empty());
         MetaRequest eixoRuim = new MetaRequest(13, "Texto", 99L, StatusMeta.EM_PROGRESSO, null, null,
-                Regionalizacao.NAO_DIVULGADA, null);
+                Regionalizacao.NAO_DIVULGADA, "Programa de Metas (fictício)", null);
         assertThatThrownBy(() -> metaBO.cadastrar(eixoRuim, "admin@teste.dev")).isInstanceOf(RegraNegocioException.class);
         assertThatThrownBy(() -> metaBO.cadastrar(req(null, null, Regionalizacao.REGIONALIZADA, List.of(1L, 999L)), "admin@teste.dev"))
                 .isInstanceOf(RegraNegocioException.class).hasMessageContaining("999");
@@ -184,7 +186,7 @@ class MetaBOTest {
     void editar() {
         when(metaDAO.findById(1L)).thenReturn(Optional.of(Fixtures.metaCreches()));
         MetaRequest r = new MetaRequest(1, "Creches", 1L, StatusMeta.ATINGIDA, new BigDecimal("40"),
-                new BigDecimal("40"), Regionalizacao.REGIONALIZADA, List.of(1L));
+                new BigDecimal("40"), Regionalizacao.REGIONALIZADA, "Programa de Metas (fictício)", List.of(1L));
         MetaResponse resp = metaBO.atualizar(1L, r);
         assertThat(resp.status()).isEqualTo("ATINGIDA");
         assertThat(resp.percentual()).isEqualByComparingTo("100.0");

@@ -78,10 +78,10 @@ class OracleIntegracaoIT {
     }
 
     @Test
-    @DisplayName("Oracle: GET /promessas devolve as 15 promessas e GET /termometro as 6 subprefeituras")
+    @DisplayName("Oracle: GET /promessas devolve as 15 promessas e GET /termometro as 7 subprefeituras")
     void contagens() throws Exception {
         mvc.perform(get("/promessas")).andExpect(jsonPath("$", hasSize(15)));
-        mvc.perform(get("/termometro")).andExpect(jsonPath("$", hasSize(6)));
+        mvc.perform(get("/termometro")).andExpect(jsonPath("$", hasSize(7)));
         mvc.perform(get("/promessas").param("semMeta", "true")).andExpect(jsonPath("$[*].id", contains(11, 12, 13, 14)));
     }
 
@@ -91,12 +91,14 @@ class OracleIntegracaoIT {
         long meta = id(mvc.perform(post("/metas").header("Authorization", admin()).contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"numero":9901,"texto":"Meta de teste de integração","eixoId":4,"status":"EM_PROGRESSO",
-                                 "valorAtual":3,"valorAlvo":4,"regionalizacao":"REGIONALIZADA","subprefeituraIds":[1]}"""))
+                                 "valorAtual":3,"valorAlvo":4,"regionalizacao":"REGIONALIZADA",
+                                 "fonte":"Programa de Metas (fictício)","subprefeituraIds":[1]}"""))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.percentual").value(75.0)));
 
         long promessa = id(mvc.perform(post("/promessas").header("Authorization", admin()).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"texto\":\"Promessa de teste de integração\",\"subprefeituraIds\":[4]}"))
+                        .content("{\"texto\":\"Promessa de teste de integração\",\"eixoId\":4,"
+                                + "\"fonte\":\"Plano de governo (fictício)\",\"subprefeituraIds\":[4]}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.estado").value("NAO_VIROU_META")));
 
@@ -105,7 +107,8 @@ class OracleIntegracaoIT {
 
         // ligar a uma meta apaga as ligacoes com subprefeituras
         mvc.perform(put("/promessas/" + promessa).header("Authorization", admin()).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"texto\":\"Promessa de teste de integração\",\"metaId\":" + meta + "}"))
+                        .content("{\"texto\":\"Promessa de teste de integração\",\"eixoId\":4,"
+                                + "\"fonte\":\"Plano de governo (fictício)\",\"metaId\":" + meta + "}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.estado").value("VIROU_META"))
                 .andExpect(jsonPath("$.subprefeituras", hasSize(0)));
