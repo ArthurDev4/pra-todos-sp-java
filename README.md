@@ -149,15 +149,5 @@ CORS liberado. O programa Python (Dynamic) usa dados de exemplo embutidos; opcio
 3. Em **Environment**: `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
 4. Teste `https://<servico>.onrender.com/subprefeituras/7/termometro` e `/swagger-ui.html`.
 
-No plano gratuito o serviço "dorme"; a primeira requisição pode levar cerca de 1 minuto.
 
-## Documentação
-A documentação em PDF da disciplina (capa, sumário, especificação, diagramas de classes, protótipos, endpoints, DER e
-instruções de execução) é entregue junto no ZIP do Portal do Aluno.
 
-## Escopo do MVP
-A US12 (filtro por área) faz parte do MVP do Agile e já funciona na tela do bairro (filtro no navegador, sem rota nova).
-Fora do MVP e não implementados: US13 (notícias e agenda, Could) e US14–US21 (Won't).
-
-## Uso de IA
-Prompts usados com IA como copiloto: [prompts.md](prompts.md).
