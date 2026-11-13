@@ -55,7 +55,10 @@ function seloDaPromessa(p) {
 }
 
 function fonteHtml(rotulo, fonte) {
-    return `<div class="fonte"><b>${esc(rotulo)}:</b> ${esc(fonte)}</div>`;
+    // se a fonte for um endereco http(s), vira link (US05: "link da fonte"); senao, texto simples
+    const valor = /^https?:\/\/\S+$/i.test(fonte)
+        ? `<a href="${esc(fonte)}" target="_blank" rel="noopener">${esc(fonte)}</a>` : esc(fonte);
+    return `<div class="fonte"><b>${esc(rotulo)}:</b> ${valor}</div>`;
 }
 
 function formatarNumero(n) {
