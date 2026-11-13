@@ -74,6 +74,10 @@ No SQL Developer, conectado ao Oracle da FIAP, rode `src/main/resources/db/01_dd
 (abra em UTF-8). Alternativa: deixe `DB_INICIALIZAR=true` e a aplicação roda os dois scripts **se a tabela
 PROMESSA ainda não existir** (se já existir, não mexe em nada).
 
+Para **recriar o banco do zero** (por exemplo, ao receber uma versão nova do esquema), abra o `01_ddl.sql`, tire o
+comentário (`--`) do bloco `DROP TABLE` / `DROP SEQUENCE` que fica no topo do arquivo, rode o script inteiro e depois o
+`02_dml.sql`. Atenção: isso apaga todos os dados das tabelas.
+
 ### 3. Variáveis
 Copie `.env.example` para `.env` na raiz e preencha (o `.env` está no `.gitignore` — nunca vá para o GitHub):
 
@@ -88,10 +92,15 @@ Copie `.env.example` para `.env` na raiz e preencha (o `.env` está no `.gitigno
 | `PORT` | não | Padrão 8080 (o Render define sozinho) |
 
 ### 4. Subir
+Rode na pasta onde estão o `pom.xml` e o `mvnw` (o `.env` precisa estar nessa mesma pasta):
+
 ```bash
-mvnw.cmd spring-boot:run     # Windows
-./mvnw spring-boot:run       # Linux / macOS / Git Bash
+./mvnw spring-boot:run       # Git Bash, Linux ou macOS
+.\mvnw.cmd spring-boot:run   # PowerShell
+mvnw.cmd spring-boot:run     # Prompt de Comando (CMD)
 ```
+
+Espere a mensagem `Started PraTodosSpApplication` antes de abrir o navegador.
 
 | Endereço | O quê |
 |---|---|
