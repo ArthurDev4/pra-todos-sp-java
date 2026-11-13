@@ -1,0 +1,25 @@
+# Blueprint do Render (opcional: tambem da para criar o Web Service pelo painel).
+# Os valores secretos (sync: false) sao preenchidos no painel do Render, nunca aqui.
+services:
+  - type: web
+    name: pratodossp
+    runtime: docker
+    plan: free
+    healthCheckPath: /subprefeituras
+    envVars:
+      - key: DB_URL
+        value: jdbc:oracle:thin:@oracle.fiap.com.br:1521/ORCL
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NOME
+        value: Administrador
+      - key: DB_INICIALIZAR
+        value: "false"
