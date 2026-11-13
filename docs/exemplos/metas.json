@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "numero": 1,
+    "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+    "eixo": "Universo SP",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 12,
+    "valorAlvo": 40,
+    "percentual": 30.0,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      1,
+      2,
+      5
+    ]
+  },
+  {
+    "id": 2,
+    "numero": 2,
+    "texto": "Reformar unidades básicas de saúde da cidade",
+    "eixo": "Universo SP",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 8,
+    "valorAlvo": 30,
+    "percentual": 26.7,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      1,
+      3
+    ]
+  },
+  {
+    "id": 3,
+    "numero": 3,
+    "texto": "Reduzir a fila de consultas com especialistas",
+    "eixo": "Universo SP",
+    "status": "EM_PLANEJAMENTO",
+    "valorAtual": null,
+    "valorAlvo": null,
+    "percentual": null,
+    "regionalizacao": "NAO_DIVULGADA",
+    "subprefeituras": []
+  },
+  {
+    "id": 4,
+    "numero": 4,
+    "texto": "Plantar árvores em ruas e praças",
+    "eixo": "Viver São Paulo",
+    "status": "ATINGIDA",
+    "valorAtual": 5000,
+    "valorAlvo": 5000,
+    "percentual": 100.0,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      3,
+      4
+    ]
+  },
+  {
+    "id": 5,
+    "numero": 5,
+    "texto": "Entregar unidades de moradia popular",
+    "eixo": "Viver São Paulo",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 600,
+    "valorAlvo": 2000,
+    "percentual": 30.0,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      1,
+      5
+    ]
+  },
+  {
+    "id": 6,
+    "numero": 6,
+    "texto": "Ampliar os corredores de ônibus",
+    "eixo": "Viver São Paulo",
+    "status": "EM_PLANEJAMENTO",
+    "valorAtual": 0,
+    "valorAlvo": 15,
+    "percentual": 0.0,
+    "regionalizacao": "NAO_DIVULGADA",
+    "subprefeituras": []
+  },
+  {
+    "id": 7,
+    "numero": 7,
+    "texto": "Capacitar jovens em cursos profissionalizantes",
+    "eixo": "Cidade Empreendedora",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 3000,
+    "valorAlvo": 10000,
+    "percentual": 30.0,
+    "regionalizacao": "NAO_REGIONALIZAVEL",
+    "subprefeituras": []
+  },
+  {
+    "id": 8,
+    "numero": 8,
+    "texto": "Apoiar microempreendedores com crédito",
+    "eixo": "Cidade Empreendedora",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 900,
+    "valorAlvo": 1500,
+    "percentual": 60.0,
+    "regionalizacao": "NAO_REGIONALIZAVEL",
+    "subprefeituras": []
+  },
+  {
+    "id": 9,
+    "numero": 9,
+    "texto": "Revitalizar feiras livres e mercados",
+    "eixo": "Cidade Empreendedora",
+    "status": "EM_PLANEJAMENTO",
+    "valorAtual": null,
+    "valorAlvo": null,
+    "percentual": null,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      4,
+      6
+    ]
+  },
+  {
+    "id": 10,
+    "numero": 10,
+    "texto": "Levar internet gratuita a praças e bibliotecas",
+    "eixo": "Capital do Futuro",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 70,
+    "valorAlvo": 100,
+    "percentual": 70.0,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      2,
+      3,
+      6
+    ]
+  },
+  {
+    "id": 11,
+    "numero": 11,
+    "texto": "Digitalizar os serviços da prefeitura",
+    "eixo": "Capital do Futuro",
+    "status": "ATINGIDA",
+    "valorAtual": 25,
+    "valorAlvo": 25,
+    "percentual": 100.0,
+    "regionalizacao": "NAO_REGIONALIZAVEL",
+    "subprefeituras": []
+  },
+  {
+    "id": 12,
+    "numero": 12,
+    "texto": "Ampliar a iluminação em LED nas ruas",
+    "eixo": "Viver São Paulo",
+    "status": "EM_PROGRESSO",
+    "valorAtual": 40000,
+    "valorAlvo": 100000,
+    "percentual": 40.0,
+    "regionalizacao": "REGIONALIZADA",
+    "subprefeituras": [
+      1,
+      2,
+      6
+    ]
+  }
+]

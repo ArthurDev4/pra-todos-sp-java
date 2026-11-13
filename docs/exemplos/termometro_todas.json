@@ -1,0 +1,396 @@
+[
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 1,
+      "nome": "Itaquera"
+    },
+    "promessas": [
+      {
+        "id": 1,
+        "texto": "Construir creches em todos os bairros",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 2,
+        "texto": "Acabar com a fila das creches",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 3,
+        "texto": "Reformar todos os postos de saúde",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 2,
+          "numero": 2,
+          "texto": "Reformar unidades básicas de saúde da cidade",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 8,
+          "valorAlvo": 30,
+          "percentual": 26.7,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 6,
+        "texto": "Entregar casas populares para famílias de baixa renda",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 5,
+          "numero": 5,
+          "texto": "Entregar unidades de moradia popular",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 600,
+          "valorAlvo": 2000,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 15,
+        "texto": "Iluminar todas as ruas com LED",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 12,
+          "numero": 12,
+          "texto": "Ampliar a iluminação em LED nas ruas",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 40000,
+          "valorAlvo": 100000,
+          "percentual": 40.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": [
+      {
+        "id": 11,
+        "texto": "Fazer um grande parque linear na zona leste",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      },
+      {
+        "id": 12,
+        "texto": "Tarifa zero no transporte aos domingos",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      },
+      {
+        "id": 14,
+        "texto": "Reduzir o IPTU de moradias populares",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      }
+    ]
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 2,
+      "nome": "Capela do Socorro"
+    },
+    "promessas": [
+      {
+        "id": 1,
+        "texto": "Construir creches em todos os bairros",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 2,
+        "texto": "Acabar com a fila das creches",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 10,
+        "texto": "Wi-Fi gratuito em todas as praças",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 10,
+          "numero": 10,
+          "texto": "Levar internet gratuita a praças e bibliotecas",
+          "eixo": "Capital do Futuro",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 70,
+          "valorAlvo": 100,
+          "percentual": 70.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 15,
+        "texto": "Iluminar todas as ruas com LED",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 12,
+          "numero": 12,
+          "texto": "Ampliar a iluminação em LED nas ruas",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 40000,
+          "valorAlvo": 100000,
+          "percentual": 40.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": [
+      {
+        "id": 14,
+        "texto": "Reduzir o IPTU de moradias populares",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      }
+    ]
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 3,
+      "nome": "Butantã"
+    },
+    "promessas": [
+      {
+        "id": 3,
+        "texto": "Reformar todos os postos de saúde",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 2,
+          "numero": 2,
+          "texto": "Reformar unidades básicas de saúde da cidade",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 8,
+          "valorAlvo": 30,
+          "percentual": 26.7,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 5,
+        "texto": "Plantar mais árvores em toda a cidade",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 4,
+          "numero": 4,
+          "texto": "Plantar árvores em ruas e praças",
+          "eixo": "Viver São Paulo",
+          "status": "ATINGIDA",
+          "valorAtual": 5000,
+          "valorAlvo": 5000,
+          "percentual": 100.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 10,
+        "texto": "Wi-Fi gratuito em todas as praças",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 10,
+          "numero": 10,
+          "texto": "Levar internet gratuita a praças e bibliotecas",
+          "eixo": "Capital do Futuro",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 70,
+          "valorAlvo": 100,
+          "percentual": 70.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": []
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 4,
+      "nome": "Sé"
+    },
+    "promessas": [
+      {
+        "id": 5,
+        "texto": "Plantar mais árvores em toda a cidade",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 4,
+          "numero": 4,
+          "texto": "Plantar árvores em ruas e praças",
+          "eixo": "Viver São Paulo",
+          "status": "ATINGIDA",
+          "valorAtual": 5000,
+          "valorAlvo": 5000,
+          "percentual": 100.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": [
+      {
+        "id": 12,
+        "texto": "Tarifa zero no transporte aos domingos",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      },
+      {
+        "id": 13,
+        "texto": "Criar o museu da cidade",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      }
+    ]
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 5,
+      "nome": "Penha"
+    },
+    "promessas": [
+      {
+        "id": 1,
+        "texto": "Construir creches em todos os bairros",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 2,
+        "texto": "Acabar com a fila das creches",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 1,
+          "numero": 1,
+          "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+          "eixo": "Universo SP",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 12,
+          "valorAlvo": 40,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 6,
+        "texto": "Entregar casas populares para famílias de baixa renda",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 5,
+          "numero": 5,
+          "texto": "Entregar unidades de moradia popular",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 600,
+          "valorAlvo": 2000,
+          "percentual": 30.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": [
+      {
+        "id": 11,
+        "texto": "Fazer um grande parque linear na zona leste",
+        "estado": "NAO_VIROU_META",
+        "meta": null
+      }
+    ]
+  },
+  {
+    "aviso": "Dados fictícios",
+    "subprefeitura": {
+      "id": 6,
+      "nome": "Santana/Tucuruvi"
+    },
+    "promessas": [
+      {
+        "id": 10,
+        "texto": "Wi-Fi gratuito em todas as praças",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 10,
+          "numero": 10,
+          "texto": "Levar internet gratuita a praças e bibliotecas",
+          "eixo": "Capital do Futuro",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 70,
+          "valorAlvo": 100,
+          "percentual": 70.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      },
+      {
+        "id": 15,
+        "texto": "Iluminar todas as ruas com LED",
+        "estado": "VIROU_META",
+        "meta": {
+          "id": 12,
+          "numero": 12,
+          "texto": "Ampliar a iluminação em LED nas ruas",
+          "eixo": "Viver São Paulo",
+          "status": "EM_PROGRESSO",
+          "valorAtual": 40000,
+          "valorAlvo": 100000,
+          "percentual": 40.0,
+          "regionalizacao": "REGIONALIZADA"
+        }
+      }
+    ],
+    "naoViraramMeta": []
+  }
+]

@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "texto": "Construir creches em todos os bairros",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 1,
+      "numero": 1,
+      "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+      "eixo": "Universo SP",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 12,
+      "valorAlvo": 40,
+      "percentual": 30.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 2,
+    "texto": "Acabar com a fila das creches",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 1,
+      "numero": 1,
+      "texto": "Ampliar a rede de creches para atender mais crianças pequenas",
+      "eixo": "Universo SP",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 12,
+      "valorAlvo": 40,
+      "percentual": 30.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 3,
+    "texto": "Reformar todos os postos de saúde",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 2,
+      "numero": 2,
+      "texto": "Reformar unidades básicas de saúde da cidade",
+      "eixo": "Universo SP",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 8,
+      "valorAlvo": 30,
+      "percentual": 26.7,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 4,
+    "texto": "Acabar com a fila de especialistas",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 3,
+      "numero": 3,
+      "texto": "Reduzir a fila de consultas com especialistas",
+      "eixo": "Universo SP",
+      "status": "EM_PLANEJAMENTO",
+      "valorAtual": null,
+      "valorAlvo": null,
+      "percentual": null,
+      "regionalizacao": "NAO_DIVULGADA"
+    }
+  },
+  {
+    "id": 5,
+    "texto": "Plantar mais árvores em toda a cidade",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 4,
+      "numero": 4,
+      "texto": "Plantar árvores em ruas e praças",
+      "eixo": "Viver São Paulo",
+      "status": "ATINGIDA",
+      "valorAtual": 5000,
+      "valorAlvo": 5000,
+      "percentual": 100.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 6,
+    "texto": "Entregar casas populares para famílias de baixa renda",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 5,
+      "numero": 5,
+      "texto": "Entregar unidades de moradia popular",
+      "eixo": "Viver São Paulo",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 600,
+      "valorAlvo": 2000,
+      "percentual": 30.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 7,
+    "texto": "Criar faixa exclusiva de ônibus nos corredores principais",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 6,
+      "numero": 6,
+      "texto": "Ampliar os corredores de ônibus",
+      "eixo": "Viver São Paulo",
+      "status": "EM_PLANEJAMENTO",
+      "valorAtual": 0,
+      "valorAlvo": 15,
+      "percentual": 0.0,
+      "regionalizacao": "NAO_DIVULGADA"
+    }
+  },
+  {
+    "id": 8,
+    "texto": "Oferecer cursos gratuitos para jovens",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 7,
+      "numero": 7,
+      "texto": "Capacitar jovens em cursos profissionalizantes",
+      "eixo": "Cidade Empreendedora",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 3000,
+      "valorAlvo": 10000,
+      "percentual": 30.0,
+      "regionalizacao": "NAO_REGIONALIZAVEL"
+    }
+  },
+  {
+    "id": 9,
+    "texto": "Facilitar crédito para pequenos negócios",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 8,
+      "numero": 8,
+      "texto": "Apoiar microempreendedores com crédito",
+      "eixo": "Cidade Empreendedora",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 900,
+      "valorAlvo": 1500,
+      "percentual": 60.0,
+      "regionalizacao": "NAO_REGIONALIZAVEL"
+    }
+  },
+  {
+    "id": 10,
+    "texto": "Wi-Fi gratuito em todas as praças",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 10,
+      "numero": 10,
+      "texto": "Levar internet gratuita a praças e bibliotecas",
+      "eixo": "Capital do Futuro",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 70,
+      "valorAlvo": 100,
+      "percentual": 70.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  },
+  {
+    "id": 11,
+    "texto": "Fazer um grande parque linear na zona leste",
+    "estado": "NAO_VIROU_META",
+    "meta": null
+  },
+  {
+    "id": 12,
+    "texto": "Tarifa zero no transporte aos domingos",
+    "estado": "NAO_VIROU_META",
+    "meta": null
+  },
+  {
+    "id": 13,
+    "texto": "Criar o museu da cidade",
+    "estado": "NAO_VIROU_META",
+    "meta": null
+  },
+  {
+    "id": 14,
+    "texto": "Reduzir o IPTU de moradias populares",
+    "estado": "NAO_VIROU_META",
+    "meta": null
+  },
+  {
+    "id": 15,
+    "texto": "Iluminar todas as ruas com LED",
+    "estado": "VIROU_META",
+    "meta": {
+      "id": 12,
+      "numero": 12,
+      "texto": "Ampliar a iluminação em LED nas ruas",
+      "eixo": "Viver São Paulo",
+      "status": "EM_PROGRESSO",
+      "valorAtual": 40000,
+      "valorAlvo": 100000,
+      "percentual": 40.0,
+      "regionalizacao": "REGIONALIZADA"
+    }
+  }
+]

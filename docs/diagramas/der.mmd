@@ -1,0 +1,49 @@
+erDiagram
+    USUARIO_ADMIN {
+        NUMBER id PK
+        VARCHAR2 nome
+        VARCHAR2 email UK
+        VARCHAR2 senha_hash
+        DATE data_cadastro
+    }
+    EIXO {
+        NUMBER id PK
+        VARCHAR2 nome UK
+    }
+    SUBPREFEITURA {
+        NUMBER id PK
+        VARCHAR2 nome UK
+    }
+    META {
+        NUMBER id PK
+        NUMBER numero UK
+        VARCHAR2 texto
+        NUMBER eixo_id FK
+        VARCHAR2 status
+        NUMBER valor_atual
+        NUMBER valor_alvo
+        VARCHAR2 regionalizacao
+        NUMBER criado_por FK
+    }
+    PROMESSA {
+        NUMBER id PK
+        VARCHAR2 texto
+        NUMBER meta_id FK
+        NUMBER criado_por FK
+    }
+    META_SUBPREFEITURA {
+        NUMBER meta_id PK,FK
+        NUMBER subprefeitura_id PK,FK
+    }
+    PROMESSA_SUBPREFEITURA {
+        NUMBER promessa_id PK,FK
+        NUMBER subprefeitura_id PK,FK
+    }
+    EIXO ||--o{ META : agrupa
+    USUARIO_ADMIN ||--o{ META : cadastra
+    USUARIO_ADMIN ||--o{ PROMESSA : cadastra
+    META |o--o{ PROMESSA : origina
+    META ||--o{ META_SUBPREFEITURA : atende
+    SUBPREFEITURA ||--o{ META_SUBPREFEITURA : recebe
+    PROMESSA ||--o{ PROMESSA_SUBPREFEITURA : atinge
+    SUBPREFEITURA ||--o{ PROMESSA_SUBPREFEITURA : tem

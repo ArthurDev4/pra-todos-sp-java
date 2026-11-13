@@ -1,0 +1,70 @@
+classDiagram
+    direction LR
+    class Promessa {
+        -Long id
+        -String texto
+        -Meta meta
+        -UsuarioAdmin criadoPor
+        -Set~Subprefeitura~ subprefeituras
+        +getEstado() EstadoPromessa
+        +atingeSubprefeitura(Long) boolean
+        +definirSubprefeituras(Set~Subprefeitura~) void
+    }
+    class Meta {
+        -Long id
+        -Integer numero
+        -String texto
+        -Eixo eixo
+        -StatusMeta status
+        -BigDecimal valorAtual
+        -BigDecimal valorAlvo
+        -Regionalizacao regionalizacao
+        -UsuarioAdmin criadoPor
+        -Set~Subprefeitura~ subprefeituras
+        +atendeSubprefeitura(Long) boolean
+        +definirSubprefeituras(Set~Subprefeitura~) void
+    }
+    class Subprefeitura {
+        -Long id
+        -String nome
+        +equals(Object) boolean
+        +hashCode() int
+    }
+    class Eixo {
+        -Long id
+        -String nome
+    }
+    class UsuarioAdmin {
+        -Long id
+        -String nome
+        -String email
+        -String senhaHash
+        -LocalDate dataCadastro
+    }
+    class StatusMeta {
+        <<enumeration>>
+        EM_PLANEJAMENTO
+        EM_PROGRESSO
+        ATINGIDA
+    }
+    class Regionalizacao {
+        <<enumeration>>
+        REGIONALIZADA
+        NAO_REGIONALIZAVEL
+        NAO_DIVULGADA
+        +aceitaRegioes() boolean
+    }
+    class EstadoPromessa {
+        <<enumeration>>
+        VIROU_META
+        NAO_VIROU_META
+    }
+    Promessa "0..*" --> "0..1" Meta : META_ID
+    Promessa "0..*" --> "0..*" Subprefeitura : PROMESSA_SUBPREFEITURA
+    Promessa "0..*" --> "1" UsuarioAdmin : CRIADO_POR
+    Meta "0..*" --> "0..*" Subprefeitura : META_SUBPREFEITURA
+    Meta "0..*" --> "1" Eixo : EIXO_ID
+    Meta "0..*" --> "1" UsuarioAdmin : CRIADO_POR
+    Promessa ..> EstadoPromessa
+    Meta --> StatusMeta
+    Meta --> Regionalizacao

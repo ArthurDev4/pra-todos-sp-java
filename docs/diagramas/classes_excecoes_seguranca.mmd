@@ -1,0 +1,64 @@
+classDiagram
+    direction LR
+    class RuntimeException
+    class RegraNegocioException {
+        HTTP 400
+    }
+    class CredenciaisInvalidasException {
+        HTTP 401
+    }
+    class RecursoNaoEncontradoException {
+        HTTP 404
+    }
+    class ConflitoException {
+        HTTP 409
+    }
+    class GlobalExceptionHandler {
+        <<RestControllerAdvice>>
+        +regraNegocio(RegraNegocioException) ResponseEntity
+        +validacao(MethodArgumentNotValidException) ResponseEntity
+        +jsonInvalido(HttpMessageNotReadableException) ResponseEntity
+        +credenciais(CredenciaisInvalidasException) ResponseEntity
+        +naoEncontrado(RecursoNaoEncontradoException) ResponseEntity
+        +conflito(ConflitoException) ResponseEntity
+        +integridade(DataIntegrityViolationException) ResponseEntity
+        +inesperado(Exception) ResponseEntity
+    }
+    class ErroResponse {
+        <<record>>
+        LocalDateTime timestamp
+        int status
+        String error
+        String message
+        String path
+        List~CampoErro~ campos
+    }
+    class SecurityConfig {
+        +securityFilterChain(HttpSecurity) SecurityFilterChain
+        +corsConfigurationSource() CorsConfigurationSource
+        +passwordEncoder() PasswordEncoder
+    }
+    class JwtAuthFilter {
+        #doFilterInternal(request, response, chain) void
+    }
+    class ErroSegurancaHandler {
+        +commence() void
+        +handle() void
+    }
+    class JwtService {
+        +gerarToken(String) String
+        +validar(String) Optional
+    }
+    RuntimeException <|-- RegraNegocioException
+    RuntimeException <|-- CredenciaisInvalidasException
+    RuntimeException <|-- RecursoNaoEncontradoException
+    RuntimeException <|-- ConflitoException
+    GlobalExceptionHandler ..> ErroResponse : devolve
+    GlobalExceptionHandler ..> RegraNegocioException
+    GlobalExceptionHandler ..> CredenciaisInvalidasException
+    GlobalExceptionHandler ..> RecursoNaoEncontradoException
+    GlobalExceptionHandler ..> ConflitoException
+    SecurityConfig --> JwtAuthFilter
+    SecurityConfig --> ErroSegurancaHandler
+    JwtAuthFilter --> JwtService
+    ErroSegurancaHandler ..> ErroResponse : 401 / 403

@@ -1,0 +1,66 @@
+classDiagram
+    direction LR
+    class TermometroBO
+    class MetaBO
+    class PromessaBO
+    class SubprefeituraBO
+    class EixoBO
+    class AdminBO
+    class PromessaDAO {
+        <<interface>>
+        +findAllByOrderByIdAsc() List
+        +findWithDetalhesById(Long) Optional
+        +countByMetaId(Long) long
+    }
+    class MetaDAO {
+        <<interface>>
+        +findAllByOrderByNumeroAsc() List
+        +existsByNumero(Integer) boolean
+        +existsByNumeroAndIdNot(Integer, Long) boolean
+    }
+    class SubprefeituraDAO {
+        <<interface>>
+        +findAllByOrderByNomeAsc() List
+        +findAllByOrderByIdAsc() List
+    }
+    class EixoDAO {
+        <<interface>>
+        +findAllByOrderByIdAsc() List
+    }
+    class UsuarioAdminDAO {
+        <<interface>>
+        +findByEmail(String) Optional
+        +existsByEmail(String) boolean
+    }
+    class JpaRepository~T, Long~ {
+        <<interface>>
+        +findById(Long) Optional
+        +findAll() List
+        +save(T) T
+        +delete(T) void
+    }
+    class JwtService {
+        +gerarToken(String) String
+        +validar(String) Optional
+    }
+    TermometroBO --> PromessaDAO
+    TermometroBO --> SubprefeituraBO
+    TermometroBO --> SubprefeituraDAO
+    MetaBO --> MetaDAO
+    MetaBO --> PromessaDAO
+    MetaBO --> SubprefeituraBO
+    MetaBO --> EixoBO
+    MetaBO --> AdminBO
+    PromessaBO --> PromessaDAO
+    PromessaBO --> MetaDAO
+    PromessaBO --> SubprefeituraBO
+    PromessaBO --> AdminBO
+    SubprefeituraBO --> SubprefeituraDAO
+    EixoBO --> EixoDAO
+    AdminBO --> UsuarioAdminDAO
+    AdminBO --> JwtService
+    PromessaDAO --|> JpaRepository
+    MetaDAO --|> JpaRepository
+    SubprefeituraDAO --|> JpaRepository
+    EixoDAO --|> JpaRepository
+    UsuarioAdminDAO --|> JpaRepository
