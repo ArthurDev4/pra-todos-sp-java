@@ -22,7 +22,7 @@ Resumo do prompt enviado pela equipe:
 O texto integral do prompt está guardado pela equipe e pode ser anexado aqui.
 
 Resultado: estrutura do projeto, scripts Oracle, API REST, segurança JWT, telas, testes e documentação técnica
-(ver `docs/DOCUMENTACAO_TECNICA.md`).
+(documentação técnica depois resumida no README).
 
 ## Prompt 2 — 13/11/2026 — Configuração do ambiente
 
@@ -37,7 +37,7 @@ Resultado: explicação de cada variável; geração de um segredo aleatório pa
 A IA conectou ao Oracle FIAP, encontrou o modelo de dados já criado pela equipe e perguntou como seguir.
 Decisões da equipe: usar o banco existente; adicionar a coluna FONTE em PROMESSA e META; incluir Pinheiros
 (piloto do Agile). Resultado: Java adaptado ao modelo real, script `03_migracao_fonte_pinheiros.sql`,
-testes com Oracle real e capturas das telas em `docs/prints/`.
+testes com Oracle real e capturas das telas (removidas depois do repositório).
 
 ## Prompt 4 — 13/11/2026 — Conformidade com o pacote do grupo
 
@@ -56,6 +56,17 @@ exemplos), termômetro, filtros, ligações, CORS, CSV, README com a Ficha e tes
 
 Resultado: checklist contra o PDF da GS; preparação do deploy (porta do Render, proxy HTTPS e limite de memória
 testados com o JAR); diagramas de classes e DER em imagem; PDF único da documentação gerado a partir do código
-(`docs/Pra_Todos_SP_Documentacao_Java.pdf`), com os links do GitHub e do deploy pendentes.
+(depois removido do repositório pela equipe), com os links do GitHub e do deploy pendentes.
 
 <!-- Adicione abaixo os próximos prompts usados, com data e objetivo. -->
+
+## Prompt 6 — 17/11/2026 — Atualização com os commits da equipe e preparo da entrega
+
+> "meu amigo fez uns commits nesse repositorio, quero o projeto atualizado"
+> "certo arrume os erros que voce citou e deixa ele pronto para entrega"
+
+Resultado: repositório local atualizado com os commits da equipe (campos `fonte` e área, Pinheiros, novo visual);
+conferido que o Oracle FIAP já tinha as colunas novas, sem dados nulos e com a regra de área respeitada;
+`mvnw verify` com todos os testes passando, inclusive a integração com o Oracle real.
+
+
