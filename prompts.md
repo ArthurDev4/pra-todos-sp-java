@@ -1,72 +1,85 @@
-# Prompts utilizados com IA (copiloto)
+# Registro de uso de IA
 
-Registro exigido pela Global Solution. A IA (Claude Code, no VS Code) foi usada como copiloto de desenvolvimento;
-as decisões de escopo seguem a documentação Agile da equipe.
+Registro exigido pela Global Solution 2026.2 ("IA como copiloto"). A equipe Zynox usou o **Claude Code**
+(extensão do VS Code) como assistente de desenvolvimento na disciplina Domain Driven Design - Java.
 
-## Prompt 1 — 13/11/2026 — Prompt mestre de implementação
+**Como a ferramenta foi usada:** a equipe definiu o escopo, o modelo de dados e as regras do domínio. A IA
+implementou e revisou o código a partir dessas definições. Cada etapa foi conferida pela equipe com testes
+automatizados e com a aplicação rodando no Oracle da FIAP. Os prompts estão resumidos abaixo em ordem
+cronológica, cada um com o pedido, as decisões da equipe e o resultado.
 
-Ferramenta: Claude Code (VS Code).
+---
 
-Resumo do prompt enviado pela equipe:
+## 1. Implementação inicial da API (12/11/2026)
 
-> "Prompt Mestre — Pra Todos SP — Global Solution FIAP 2026.2 — Implementação completa da disciplina Domain Driven
-> Design — Java — Equipe Zynox."
->
-> Pediu que a IA: lesse o documento Agile (`Pra_Todos_SP_Documentacao_Agile.docx`) e o diagrama de casos de uso
-> (`DiagramaDeCasosDeUsosPraTodosSP.asta`); auditasse o repositório; implementasse somente as histórias Must
-> (US01–US11) em Java/Spring Boot com camadas MODEL, DAO, BO e CONTROLLER, tratamento global de exceções,
-> Oracle FIAP, login administrativo, testes automatizados, Swagger, preparação de deploy no Render e documentação;
-> sem ampliar o escopo, sem inventar credenciais ou resultados, sem trocar o Oracle por outro banco e sem fazer
-> commit/push sem autorização.
+**Pedido:** implementar a API RESTful em Spring Boot a partir da documentação Agile da equipe (backlog MoSCoW e
+diagrama de casos de uso). Restrições definidas no prompt:
+- somente as histórias **Must** (US01–US11), sem ampliar o escopo;
+- arquitetura em camadas **MODEL, DAO, BO e CONTROLLER**, com tratamento global de exceções;
+- persistência no **Oracle FIAP** (sem trocar de banco);
+- autenticação do administrador, testes automatizados, Swagger e preparo do deploy no Render;
+- nenhuma credencial no código e nenhum commit sem autorização da equipe.
 
-O texto integral do prompt está guardado pela equipe e pode ser anexado aqui.
+**Resultado:** estrutura Maven do projeto, entidades JPA, repositórios Spring Data, BOs com as regras de negócio,
+controllers REST, `GlobalExceptionHandler`, Spring Security com JWT e BCrypt, telas web, testes e documentação
+técnica.
 
-Resultado: estrutura do projeto, scripts Oracle, API REST, segurança JWT, telas, testes e documentação técnica
-(documentação técnica depois resumida no README).
+## 2. Configuração do ambiente (12/11/2026)
 
-## Prompt 2 — 13/11/2026 — Configuração do ambiente
+**Pedido:** orientação sobre as variáveis de ambiente do `.env` (credenciais do Oracle FIAP, `JWT_SECRET`,
+administrador inicial) e geração de um segredo aleatório para assinar os tokens JWT.
 
-> "eu nao entendi da onde tiro essas infos" (sobre as variáveis do `.env`)
+**Resultado:** `.env` configurado fora do versionamento (`.gitignore`) e `.env.example` documentado.
 
-Resultado: explicação de cada variável; geração de um segredo aleatório para o JWT.
+## 3. Integração com o modelo de dados da equipe (12/11/2026)
 
-## Prompt 3 — 13/11/2026 — Conexão com o Oracle e uso do modelo da equipe
+**Pedido:** conectar a aplicação ao Oracle FIAP usando o modelo já criado na disciplina Database Design.
 
-> "certo o .env esta preenchido"
+**Decisões da equipe:** usar o banco existente em vez de gerar tabelas pelo Hibernate (`ddl-auto=none`); avaliar a
+inclusão da coluna `FONTE` e da subprefeitura Pinheiros (bairro piloto do Agile).
 
-A IA conectou ao Oracle FIAP, encontrou o modelo de dados já criado pela equipe e perguntou como seguir.
-Decisões da equipe: usar o banco existente; adicionar a coluna FONTE em PROMESSA e META; incluir Pinheiros
-(piloto do Agile). Resultado: Java adaptado ao modelo real, script `03_migracao_fonte_pinheiros.sql`,
-testes com Oracle real e capturas das telas (removidas depois do repositório).
+**Resultado:** mapeamento JPA ajustado às 7 tabelas reais (incluindo as tabelas de ligação N:N via `@ManyToMany`)
+e testes de integração no Oracle real.
 
-## Prompt 4 — 13/11/2026 — Conformidade com o pacote do grupo
+## 4. Conformidade com o contrato de integração do grupo (13/11/2026)
 
-> "verifique se o projeto está nos conformes, adicionei a pasta pacote-java com os arquivos necessários, olhe o prompt"
+**Pedido:** verificar se a API seguia o pacote de integração do grupo (rotas, formato JSON consumido pelo
+programa Python, scripts DDL/DML e a Ficha da CitizenTech).
 
-Anexos: `INTEGRACAO.md`, `LEIA-ME_PRIMEIRO.md`, `FICHA_CITIZENTECH.md`, `PROMPT_JAVA.md`, SQLs do grupo,
-`exemplos/` e o PDF da GS. A IA comparou o projeto com o contrato e perguntou o padrão da aula.
-Decisões da equipe: manter JPA; reverter as mudanças no banco (coluna FONTE e Pinheiros); `POST /admins`
-exige login; rótulos de status do Agile na tela. Resultado: rotas e JSON iguais ao contrato (conferido com os
-exemplos), termômetro, filtros, ligações, CORS, CSV, README com a Ficha e testes no Oracle real.
+**Decisões da equipe:**
+- manter **JPA/Spring Data**, conforme o padrão da aula;
+- não alterar o modelo do banco naquele momento, e por isso reverter `FONTE` e Pinheiros;
+- exigir autenticação no `POST /admins` (o primeiro administrador é criado pelas variáveis de ambiente);
+- usar na interface os rótulos de status da documentação Agile (Em planejamento / Em andamento / Concluída).
 
-## Prompt 5 — 13/11/2026 — Requisitos do PDF da GS
+**Resultado:** rotas e JSON iguais ao contrato, termômetro por subprefeitura, filtros, ligações de metas e
+promessas com subprefeituras, CORS, exportação CSV para Data Science e README com a Ficha da CitizenTech.
 
-> "baseado nas informações do pdf [...] meu projeto cumpre todos requisitos pedidos??"
-> "quero que você analise os componentes que faltam e deixe o projeto 100% como você acha que ele deve ser"
+## 5. Checagem dos requisitos da GS e preparo do deploy (13/11/2026)
 
-Resultado: checklist contra o PDF da GS; preparação do deploy (porta do Render, proxy HTTPS e limite de memória
-testados com o JAR); diagramas de classes e DER em imagem; PDF único da documentação gerado a partir do código
-(depois removido do repositório pela equipe), com os links do GitHub e do deploy pendentes.
+**Pedido:** comparar o projeto com os requisitos da disciplina no PDF da GS e completar o que faltasse.
 
-<!-- Adicione abaixo os próximos prompts usados, com data e objetivo. -->
+**Resultado:** checklist de requisitos; ajustes para o Render (porta pela variável `PORT`, proxy HTTPS com
+`forward-headers-strategy`, limite de memória do container), diagramas de classes e DER e o PDF da documentação.
 
-## Prompt 6 — 17/11/2026 — Atualização com os commits da equipe e preparo da entrega
+## 6. Alinhamento com a nova versão do modelo (17/11/2026)
 
-> "meu amigo fez uns commits nesse repositorio, quero o projeto atualizado"
-> "certo arrume os erros que voce citou e deixa ele pronto para entrega"
+**Contexto:** a equipe alinhou o projeto com as entregas de Agile e Database Design. O modelo passou a ter
+`META.FONTE`, `PROMESSA.FONTE` e `PROMESSA.EIXO_ID` obrigatórios, Pinheiros como subprefeitura 7, a regra de que
+uma promessa ligada a uma meta tem a mesma área (eixo) dela, o filtro por área na tela e um novo visual.
 
-Resultado: repositório local atualizado com os commits da equipe (campos `fonte` e área, Pinheiros, novo visual);
-conferido que o Oracle FIAP já tinha as colunas novas, sem dados nulos e com a regra de área respeitada;
-`mvnw verify` com todos os testes passando, inclusive a integração com o Oracle real.
+**Pedido:** integrar essas mudanças ao repositório local e validar o projeto para a entrega.
 
+**Resultado:** conferido que o Oracle FIAP já estava migrado (colunas `NOT NULL`, FK `FK_PROMESSA_EIXO` e
+nenhum registro violando a regra de área); `mvnw verify` com todos os testes aprovados, inclusive a integração
+com o Oracle.
 
+## 7. Documentação final e verificação do deploy (17/11/2026)
+
+**Pedido:** atualizar o PDF da documentação Java conforme os itens do enunciado (capa com RMs, índice,
+diagrama de classes, protótipos de tela, tabela de endpoints, DER e instruções de execução) e conferir o deploy.
+
+**Decisão da equipe:** refazer o deploy no Render com a versão final do código.
+
+**Resultado:** diagramas de classes e DER regerados com os novos campos, capturas das telas reais, PDF e
+arquivo .zip de entrega; rotas públicas, telas, Swagger e autenticação conferidas no endereço publicado.
